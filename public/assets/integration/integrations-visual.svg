@@ -1,0 +1,118 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="phone" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a1027"/>
+      <stop offset="50%" stop-color="#111938"/>
+      <stop offset="100%" stop-color="#1a1f39"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="25%" r="60%">
+      <stop offset="0%" stop-color="#7ef1ff" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#7ef1ff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="chip" cx="50%" cy="50%" r="80%">
+      <stop offset="0%" stop-color="#2dd4ff" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.1"/>
+    </radialGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="22" stdDeviation="32" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="900" fill="#f8fbff"/>
+
+  <!-- Left logos -->
+  <g font-family="Inter, system-ui" font-weight="700" font-size="22" fill="#0f172a">
+    <g transform="translate(230 160)">
+      <circle cx="0" cy="0" r="48" fill="#18c36f"/>
+      <text x="0" y="10" text-anchor="middle" fill="white">WA</text>
+    </g>
+    <g transform="translate(310 250)">
+      <circle cx="0" cy="0" r="42" fill="#f97316"/>
+      <text x="0" y="8" text-anchor="middle" fill="white">HS</text>
+    </g>
+    <g transform="translate(220 340)">
+      <rect x="-66" y="-32" width="132" height="64" rx="12" fill="#61b5f8"/>
+      <text x="0" y="10" text-anchor="middle" fill="white" font-weight="800">SAP</text>
+    </g>
+    <g transform="translate(340 430)">
+      <rect x="-66" y="-32" width="132" height="64" rx="12" fill="#40c4ff"/>
+      <text x="0" y="10" text-anchor="middle" fill="white" font-weight="800">SF</text>
+    </g>
+    <g transform="translate(260 520)">
+      <rect x="-80" y="-50" width="160" height="100" rx="18" fill="#0f172a" stroke="#1e293b" stroke-width="4"/>
+      <path d="M-10 0 A36 36 0 1 1 -9.9999 0" stroke="#fbbf24" stroke-width="16" fill="none"/>
+      <path d="M-10 0 A24 24 0 1 1 -9.9999 0" stroke="#22c55e" stroke-width="14" fill="none"/>
+      <path d="M-10 0 A14 14 0 1 1 -9.9999 0" stroke="#3b82f6" stroke-width="12" fill="none"/>
+    </g>
+    <g transform="translate(330 640)">
+      <circle cx="0" cy="0" r="48" fill="#2563eb"/>
+      <text x="0" y="10" text-anchor="middle" fill="white">OD</text>
+    </g>
+  </g>
+
+  <!-- Right logos -->
+  <g font-family="Inter, system-ui" font-weight="800" font-size="26" fill="#0f172a">
+    <text x="1290" y="230" fill="#e11d48">Oracle</text>
+    <g transform="translate(1260 300)">
+      <path d="M0 0 L60 0 L30 60 Z" fill="#2563eb"/>
+    </g>
+    <g transform="translate(1180 360)">
+      <rect x="-70" y="-32" width="140" height="64" rx="12" fill="#2780ff"/>
+      <text x="0" y="10" text-anchor="middle" fill="white" font-weight="800">Jira</text>
+    </g>
+    <text x="1260" y="450" fill="#0ea5e9" font-size="32" font-weight="800">Intel</text>
+    <g transform="translate(1250 540)">
+      <rect x="-70" y="-32" width="140" height="64" rx="12" fill="#0f172a"/>
+      <text x="0" y="10" text-anchor="middle" fill="#22c55e" font-weight="800">NVIDIA</text>
+    </g>
+    <g transform="translate(1170 640)">
+      <rect x="-70" y="-32" width="140" height="64" rx="14" fill="#2563eb"/>
+      <text x="0" y="10" text-anchor="middle" fill="white" font-weight="800">MSFT</text>
+    </g>
+  </g>
+
+  <!-- Center phone -->
+  <g filter="url(#shadow)" transform="translate(590 120)">
+    <rect x="0" y="0" width="420" height="720" rx="38" fill="url(#phone)"/>
+    <rect x="0" y="0" width="420" height="720" rx="38" fill="url(#glow)"/>
+    <g transform="translate(210 70)" text-anchor="middle" font-family="Inter, system-ui">
+      <text y="0" fill="#e0e7ff" font-size="36" font-weight="800">induslabs.io</text>
+      <text y="36" fill="#94a3b8" font-size="16" font-weight="500">powered by mAssist CRM</text>
+    </g>
+    <g transform="translate(60 160)" font-family="Inter, system-ui" fill="#cbd5e1">
+      <text x="150" y="0" font-size="30" font-weight="700">WELCOME BACK</text>
+      <text x="150" y="40" font-size="22" font-weight="700">Sign in to IndusLabs Studio</text>
+      <text x="150" y="76" font-size="15" font-weight="500">Continue orchestrating multilingual voice agents</text>
+      <text x="150" y="102" font-size="15" font-weight="500">with a single glass dashboard.</text>
+    </g>
+    <g transform="translate(80 320)">
+      <rect width="260" height="48" rx="12" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+      <text x="14" y="30" fill="#94a3b8" font-family="Inter, system-ui" font-size="15">Email</text>
+    </g>
+    <g transform="translate(80 380)">
+      <rect width="260" height="48" rx="12" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+      <text x="14" y="30" fill="#94a3b8" font-family="Inter, system-ui" font-size="15">Password</text>
+    </g>
+    <g transform="translate(80 460)">
+      <rect width="260" height="54" rx="16" fill="#3b82f6"/>
+      <text x="130" y="34" text-anchor="middle" fill="white" font-family="Inter, system-ui" font-size="17" font-weight="700">Sign in</text>
+    </g>
+    <g transform="translate(80 530)">
+      <rect width="260" height="54" rx="16" fill="#111827" stroke="#334155" stroke-width="1.5"/>
+      <text x="130" y="34" text-anchor="middle" fill="#cbd5e1" font-family="Inter, system-ui" font-size="17" font-weight="700">Create an account</text>
+    </g>
+    <g opacity="0.6" transform="translate(60 620)" font-family="Inter, system-ui" fill="#9ca3af" font-size="14">
+      <text x="150" y="0" text-anchor="middle">Need a new workspace? Talk to IndusLabs.</text>
+    </g>
+  </g>
+
+  <!-- Connection dots -->
+  <g fill="#94a3b8">
+    <circle cx="520" cy="330" r="5"/>
+    <circle cx="540" cy="350" r="5"/>
+    <circle cx="520" cy="370" r="5"/>
+    <circle cx="1080" cy="330" r="5"/>
+    <circle cx="1060" cy="350" r="5"/>
+    <circle cx="1080" cy="370" r="5"/>
+  </g>
+</svg>
