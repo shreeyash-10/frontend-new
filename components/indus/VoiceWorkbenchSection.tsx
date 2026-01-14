@@ -169,7 +169,7 @@ const TabPill = ({ label, active, onClick }: { label: string; active: boolean; o
   );
 };
 
-const VoiceWorkbenchSection = () => {
+const VoiceWorkbenchPanel = () => {
   const [activeTab, setActiveTab] = useState<HeroTab>("tts");
   const [catalog, setCatalog] = useState<LanguageDefinition[]>([]);
   const [catalogLoading, setCatalogLoading] = useState(true);
@@ -204,6 +204,33 @@ const VoiceWorkbenchSection = () => {
   }, []);
 
   return (
+    <div className="relative overflow-hidden rounded-[32px] border border-border bg-card px-4 py-5 text-left shadow-sm sm:px-6 sm:py-6 lg:px-8 lg:py-7">
+      <div className="relative">
+        <div className="mb-5 flex flex-wrap items-center gap-3">
+          <div className="inline-flex rounded-full bg-muted p-1 text-xs sm:text-sm">
+            <TabPill label="Test TTS" active={activeTab === "tts"} onClick={() => setActiveTab("tts")} />
+            <TabPill label="Test STT" active={activeTab === "stt"} onClick={() => setActiveTab("stt")} />
+            <TabPill label="Build a Bot" active={activeTab === "bot"} onClick={() => setActiveTab("bot")} />
+          </div>
+
+          <div className="ml-auto flex items-center gap-2 text-[11px] font-medium text-emerald-500">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+            <span>Realtime - ~90ms latency</span>
+          </div>
+        </div>
+
+        {activeTab === "tts" && <HeroTtsTab catalog={catalog} isLoading={catalogLoading} errorMessage={catalogError} />}
+        {activeTab === "stt" && <HeroSttTab />}
+        {activeTab === "bot" && (
+          <HeroBotTab catalog={catalog} isLoadingCatalog={catalogLoading} catalogError={catalogError} />
+        )}
+      </div>
+    </div>
+  );
+};
+
+const VoiceWorkbenchSection = () => {
+  return (
     <section className="w-full px-5 py-12">
       <div className="mx-auto flex w-full max-w-[1100px] flex-col gap-8">
         <div className="text-center">
@@ -219,30 +246,7 @@ const VoiceWorkbenchSection = () => {
           </p>
         </div>
 
-        <div className="relative overflow-hidden rounded-[32px] border border-border bg-card px-4 py-5 text-left shadow-sm sm:px-6 sm:py-6 lg:px-8 lg:py-7">
-          <div className="relative">
-            <div className="mb-5 flex flex-wrap items-center gap-3">
-              <div className="inline-flex rounded-full bg-muted p-1 text-xs sm:text-sm">
-                <TabPill label="Test TTS" active={activeTab === "tts"} onClick={() => setActiveTab("tts")} />
-                <TabPill label="Test STT" active={activeTab === "stt"} onClick={() => setActiveTab("stt")} />
-                <TabPill label="Build a Bot" active={activeTab === "bot"} onClick={() => setActiveTab("bot")} />
-              </div>
-
-              <div className="ml-auto flex items-center gap-2 text-[11px] font-medium text-emerald-500">
-                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
-                <span>Realtime - ~90ms latency</span>
-              </div>
-            </div>
-
-            {activeTab === "tts" && (
-              <HeroTtsTab catalog={catalog} isLoading={catalogLoading} errorMessage={catalogError} />
-            )}
-            {activeTab === "stt" && <HeroSttTab />}
-            {activeTab === "bot" && (
-              <HeroBotTab catalog={catalog} isLoadingCatalog={catalogLoading} catalogError={catalogError} />
-            )}
-          </div>
-        </div>
+        <VoiceWorkbenchPanel />
       </div>
     </section>
   );
@@ -1001,4 +1005,5 @@ function HeroBotTab({ catalog, isLoadingCatalog, catalogError }: HeroBotTabProps
   );
 }
 
+export { VoiceWorkbenchPanel };
 export default VoiceWorkbenchSection;

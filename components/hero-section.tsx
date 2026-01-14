@@ -2,13 +2,11 @@ import React from "react"
 import { Button } from "@/components/ui/button"
 import { Header } from "./header"
 import Link from "next/link"
+import { VoiceWorkbenchPanel } from "@/components/indus/VoiceWorkbenchSection"
 
 export function HeroSection() {
   return (
-    <section
-      className="flex flex-col items-center text-center relative mx-auto rounded-2xl overflow-hidden my-6 py-0 px-4
-         w-full h-[400px] md:w-[1220px] md:h-[600px] lg:h-[810px] md:px-0"
-    >
+    <section className="relative w-full overflow-hidden py-6">
       {/* SVG Background */}
       <div className="absolute inset-0 z-0">
         <svg
@@ -433,25 +431,32 @@ export function HeroSection() {
       </div>
 
       {/* Header positioned at top of hero container */}
-      <div className="absolute top-0 left-0 right-0 z-20">
+      <div className="absolute inset-x-0 top-0 z-20">
         <Header />
       </div>
 
-      <div className="relative z-10 space-y-4 md:space-y-5 lg:space-y-6 mb-6 md:mb-7 lg:mb-9 max-w-md md:max-w-[500px] lg:max-w-[588px] mt-16 md:mt-[120px] lg:mt-[160px] px-4">
-        <h1 className="text-foreground text-3xl md:text-4xl lg:text-6xl font-semibold leading-tight">
-          Build, Deploy, and Scale Voice-First AI
-        </h1>
-        <p className="text-muted-foreground text-base md:text-base lg:text-lg font-medium leading-relaxed max-w-lg mx-auto">
-          Accelerate your business workflows with production-ready Voice AI agents that listen, reason, and act in real
-          time.
-        </p>
-      </div>
+      <div className="relative z-10 mx-auto flex w-full max-w-[1240px] flex-col gap-10 px-6 pb-12 pt-20 md:pt-24 lg:pt-28">
+        <div className="flex w-full flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
+          <div className="max-w-xl text-left space-y-5">
+            <h1 className="text-foreground text-3xl md:text-4xl lg:text-6xl font-semibold leading-tight">
+              Build, Deploy, and Scale Voice-First AI
+            </h1>
+            <p className="text-muted-foreground text-base md:text-base lg:text-lg font-medium leading-relaxed max-w-lg">
+              Accelerate your business workflows with production-ready Voice AI agents that listen, reason, and act in
+              real time.
+            </p>
+            <Link href="https://vercel.com/home" target="_blank" rel="noopener noreferrer">
+              <Button className="bg-secondary text-secondary-foreground hover:bg-secondary/90 px-8 py-3 rounded-full font-medium text-base shadow-lg ring-1 ring-white/10">
+                Start free
+              </Button>
+            </Link>
+          </div>
 
-      <Link href="https://vercel.com/home" target="_blank" rel="noopener noreferrer">
-        <Button className="relative z-10 bg-secondary text-secondary-foreground hover:bg-secondary/90 px-8 py-3 rounded-full font-medium text-base shadow-lg ring-1 ring-white/10">
-          Start free
-        </Button>
-      </Link>
+          <div className="w-full lg:max-w-[560px]">
+            <VoiceWorkbenchPanel />
+          </div>
+        </div>
+      </div>
     </section>
   )
 }

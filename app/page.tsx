@@ -10,7 +10,6 @@ import { FooterSection } from "@/components/footer-section"
 import { AnimatedSection } from "@/components/animated-section"
 import { DocsSection } from "@/components/docs-section"
 import { SecurityLogosSection } from "@/components/security-logos-section"
-import VoiceWorkbenchSection from "@/components/indus/VoiceWorkbenchSection"
 import UseCasesPanel from "@/components/indus/UseCasesPanel"
 import { StackedScrollHero } from "@/components/StackedScrollHero"
 
@@ -21,9 +20,6 @@ export default function LandingPage() {
         <main className="relative w-full">
           <HeroSection />
         </main>
-        <AnimatedSection className="relative z-10 mt-6" delay={0.1}>
-          <VoiceWorkbenchSection />
-        </AnimatedSection>
         <AnimatedSection className="relative z-10 w-full px-6 mt-8" delay={0.1}>
           <SocialProof />
         </AnimatedSection>
