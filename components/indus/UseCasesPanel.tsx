@@ -192,6 +192,17 @@ const USE_CASES: UseCaseDefinition[] = [
   }
 ];
 
+const USE_CASE_VIDEOS: Record<string, string> = {
+  trust: "/assets/videos/banking.mp4",
+  campaign: "/assets/videos/political.mp4",
+  growth: "/assets/videos/leadgen.mp4",
+  language: "/assets/videos/20260115_1910_New Video_simple_compose_01kf0y6aw6fk4afxpecfhb5va2.mp4",
+  order: "/assets/videos/20260115_1910_New Video_simple_compose_01kf0y6aw6fk4afxpecfhb5va2.mp4",
+  collections: "/assets/videos/recovery.mp4",
+  admissions: "/assets/videos/education.mp4",
+  care: "/assets/videos/healthcare.mp4"
+};
+
 type UseCaseTestState = {
   languageCode: string;
   voiceId: string;
@@ -497,22 +508,49 @@ const UseCasesPanel = () => {
     ? findLanguageByCode(selectedState.languageCode)
     : undefined;
   const voicesForSelectedLanguage: VoiceDefinition[] = selectedLanguage?.voices ?? [];
+  const selectedVideo = selectedCase
+    ? USE_CASE_VIDEOS[selectedCase.id] ?? USE_CASE_VIDEOS.trust
+    : USE_CASE_VIDEOS.trust;
+  const backgroundVideos = useMemo(
+    () => Array.from(new Set(Object.values(USE_CASE_VIDEOS))),
+    []
+  );
 
   return (
-    <Section id="use-cases" padding="lg" className="relative">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-10">
-        <div className="grid gap-10 lg:grid-cols-[minmax(260px,320px)_minmax(420px,1fr)]">
-          <div className="flex flex-col gap-5">
-            <div className="space-y-3">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-muted-foreground">
-                IndusLabs Use Cases
-              </p>
-              <h2 className="text-2xl font-semibold leading-tight text-foreground sm:text-3xl">
-                Built for every conversation that matters
-              </h2>
-            </div>
-            <div className="relative overflow-hidden rounded-[28px] border border-border bg-card shadow-sm">
-              <div className="relative flex flex-col divide-y divide-border/60">
+    <Section id="use-cases" padding="lg" className="relative overflow-hidden">
+      <div className="relative">
+        <div className="pointer-events-none absolute inset-0 left-1/2 h-full w-screen -translate-x-1/2">
+          {backgroundVideos.map((video) => (
+            <video
+              key={video}
+              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
+                selectedVideo === video ? "opacity-55" : "opacity-0"
+              }`}
+              src={video}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              aria-hidden="true"
+            />
+          ))}
+          <div className="absolute inset-0 bg-background/70" />
+        </div>
+
+        <div className="relative z-10 flex flex-col gap-8 rounded-[36px] border border-white/10 bg-background/60 p-6 shadow-[0_20px_50px_rgba(0,0,0,0.25)] sm:p-8 lg:p-10">
+          <div className="space-y-3">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-muted-foreground">
+              INDUSLABS USE CASES
+            </p>
+            <h2 className="text-2xl font-semibold leading-tight text-foreground sm:text-3xl">
+              Built for every conversation that matters
+            </h2>
+          </div>
+
+          <div className="grid gap-6 lg:grid-cols-[minmax(240px,300px)_minmax(0,1fr)]">
+            <div className="rounded-[28px] border border-white/10 bg-background/60 p-4 backdrop-blur">
+              <div className="flex flex-col divide-y divide-white/10">
                 {USE_CASES.map((useCase) => {
                   const isActive = selectedUseCaseId === useCase.id;
                   return (
@@ -521,17 +559,15 @@ const UseCasesPanel = () => {
                       type="button"
                       aria-pressed={isActive}
                       onClick={() => setSelectedUseCaseId(useCase.id)}
-                      className={`flex flex-col gap-1 px-5 py-4 text-left text-sm transition ${
-                        isActive ? "bg-muted/50" : "bg-transparent hover:bg-muted/40"
+                      className={`flex flex-col gap-1 px-4 py-3 text-left text-sm transition ${
+                        isActive ? "bg-white/10" : "bg-transparent hover:bg-white/5"
                       }`}
                     >
                       <div className="flex items-baseline justify-between gap-3">
                         <span className="text-[10px] font-semibold uppercase tracking-[0.32em] text-muted-foreground">
                           {useCase.tag}
                         </span>
-                        <span className="text-[11px] text-muted-foreground">
-                          {useCase.metric}
-                        </span>
+                        <span className="text-[11px] text-muted-foreground">{useCase.metric}</span>
                       </div>
                       <p className="text-sm font-semibold text-foreground">{useCase.title}</p>
                     </button>
@@ -539,117 +575,117 @@ const UseCasesPanel = () => {
                 })}
               </div>
             </div>
-          </div>
 
-          <div className="rounded-[32px] border border-border bg-card p-6 shadow-sm sm:p-8">
-            {selectedCase ? (
-              <>
-                <div className="flex flex-col gap-2">
-                  <span className="text-[11px] uppercase tracking-[0.35em] text-muted-foreground">
-                    {selectedCase.tag}
-                  </span>
+            <div className="rounded-[28px] border border-white/10 bg-background/60 p-5 backdrop-blur sm:p-6">
+              {selectedCase ? (
+                <>
                   <div className="flex flex-col gap-2">
-                    <h3 className="text-3xl font-semibold text-foreground sm:text-4xl">
-                      {selectedCase.title}
-                    </h3>
-                    <p className="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-500">
-                      {selectedCase.metric}
+                    <span className="text-[11px] uppercase tracking-[0.35em] text-muted-foreground">
+                      {selectedCase.tag}
+                    </span>
+                    <div className="flex flex-col gap-2">
+                      <h3 className="text-3xl font-semibold text-foreground sm:text-4xl">
+                        {selectedCase.title}
+                      </h3>
+                      <p className="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-500">
+                        {selectedCase.metric}
+                      </p>
+                    </div>
+                  </div>
+                  <p className="mt-4 text-base text-muted-foreground">{selectedCase.description}</p>
+                  <p className="mt-3 text-sm text-emerald-400">{selectedCase.impact}</p>
+
+                  <div className="mt-6 space-y-4 rounded-2xl border border-white/10 bg-background/70 p-4 text-foreground/80">
+                    <p className="text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground">
+                      Tailored TTS preview
                     </p>
-                  </div>
-                </div>
-                <p className="mt-4 text-base text-muted-foreground">{selectedCase.description}</p>
-                <p className="mt-3 text-sm text-emerald-500">{selectedCase.impact}</p>
+                    <div className="flex flex-col gap-3 sm:flex-row">
+                      <label className="flex flex-1 flex-col gap-1 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                        Language
+                        <select
+                          className="rounded-2xl border border-white/10 bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-foreground/40"
+                          value={selectedState?.languageCode ?? ""}
+                          onChange={(event: ChangeEvent<HTMLSelectElement>) =>
+                            handleLanguageChange(selectedCase.id, event.target.value)
+                          }
+                          disabled={!languages.length || isLoadingVoices}
+                        >
+                          {!languages.length && <option>Loading languages…</option>}
+                          {languages.map((lang) => (
+                            <option key={lang.code} value={lang.code}>
+                              {getFlagEmoji(lang.code, lang.name)} {lang.name}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                      <label className="flex flex-1 flex-col gap-1 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                        Voice
+                        <select
+                          className="rounded-2xl border border-white/10 bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-foreground/40"
+                          value={selectedState?.voiceId ?? ""}
+                          onChange={(event: ChangeEvent<HTMLSelectElement>) =>
+                            handleVoiceChange(selectedCase.id, event.target.value)
+                          }
+                          disabled={!voicesForSelectedLanguage.length}
+                        >
+                          {!voicesForSelectedLanguage.length && <option>No voices available</option>}
+                          {voicesForSelectedLanguage.map((voice) => (
+                            <option key={voice.id} value={voice.id}>
+                              {voice.name}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                    </div>
 
-                <div className="mt-6 space-y-4 rounded-2xl border border-border bg-muted/40 p-4 text-foreground/80">
-                  <p className="text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground">
-                    Tailored TTS preview
+                    <label className="flex flex-col gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                      Script
+                      <textarea
+                        className="min-h-[110px] rounded-2xl border border-white/10 bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-foreground/40"
+                        value={selectedState?.script ?? selectedCase.script}
+                        onChange={(event) => handleScriptChange(selectedCase.id, event.target.value)}
+                      />
+                    </label>
+
+                    <div className="flex flex-wrap items-center gap-3">
+                      <button
+                        type="button"
+                        onClick={() => handlePlaySample(selectedCase.id)}
+                        disabled={playingId === selectedCase.id || !selectedState?.voiceId}
+                        className="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2 text-sm font-semibold text-background transition hover:bg-foreground/90 disabled:cursor-not-allowed disabled:opacity-60"
+                      >
+                        {playingId === selectedCase.id ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-background text-foreground text-[11px]">
+                            ▶
+                          </span>
+                        )}
+                        Play preview
+                      </button>
+                      <SmallCallButton
+                        commonAgentId={selectedCase.commonAgentId}
+                        targetAgentId={selectedCase.targetAgentId}
+                        language={selectedLanguage?.name}
+                        voice={selectedState?.voiceId}
+                        className="shadow-none"
+                      />
+                      {playError && <p className="text-xs text-rose-600">{playError}</p>}
+                      {voiceError && <p className="text-xs text-rose-600">{voiceError}</p>}
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <div className="flex h-full flex-col items-center justify-center gap-4 text-center text-muted-foreground">
+                  <p className="text-sm font-semibold uppercase tracking-[0.3em] text-muted-foreground">
+                    Explore a use case
                   </p>
-                  <div className="flex flex-col gap-3 sm:flex-row">
-                    <label className="flex flex-1 flex-col gap-1 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                      Language
-                      <select
-                        className="rounded-2xl border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-foreground/40"
-                        value={selectedState?.languageCode ?? ""}
-                        onChange={(event: ChangeEvent<HTMLSelectElement>) =>
-                          handleLanguageChange(selectedCase.id, event.target.value)
-                        }
-                        disabled={!languages.length || isLoadingVoices}
-                      >
-                        {!languages.length && <option>Loading languages…</option>}
-                        {languages.map((lang) => (
-                          <option key={lang.code} value={lang.code}>
-                            {getFlagEmoji(lang.code, lang.name)} {lang.name}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                    <label className="flex flex-1 flex-col gap-1 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                      Voice
-                      <select
-                        className="rounded-2xl border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-foreground/40"
-                        value={selectedState?.voiceId ?? ""}
-                        onChange={(event: ChangeEvent<HTMLSelectElement>) =>
-                          handleVoiceChange(selectedCase.id, event.target.value)
-                        }
-                        disabled={!voicesForSelectedLanguage.length}
-                      >
-                        {!voicesForSelectedLanguage.length && <option>No voices available</option>}
-                        {voicesForSelectedLanguage.map((voice) => (
-                          <option key={voice.id} value={voice.id}>
-                            {voice.name}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                  </div>
-
-                  <label className="flex flex-col gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                    Script
-                    <textarea
-                      className="min-h-[110px] rounded-2xl border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-foreground/40"
-                      value={selectedState?.script ?? selectedCase.script}
-                      onChange={(event) => handleScriptChange(selectedCase.id, event.target.value)}
-                    />
-                  </label>
-
-                  <div className="flex flex-wrap items-center gap-3">
-                    <button
-                      type="button"
-                      onClick={() => handlePlaySample(selectedCase.id)}
-                      disabled={playingId === selectedCase.id || !selectedState?.voiceId}
-                      className="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2 text-sm font-semibold text-background transition hover:bg-foreground/90 disabled:cursor-not-allowed disabled:opacity-60"
-                    >
-                      {playingId === selectedCase.id ? (
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                      ) : (
-                        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-background text-foreground text-[11px]">
-                          ▶
-                        </span>
-                      )}
-                      Play preview
-                    </button>
-                    <SmallCallButton
-                      commonAgentId={selectedCase.commonAgentId}
-                      targetAgentId={selectedCase.targetAgentId}
-                      language={selectedLanguage?.name}
-                      voice={selectedState?.voiceId}
-                      className="shadow-none"
-                    />
-                    {playError && <p className="text-xs text-rose-600">{playError}</p>}
-                    {voiceError && <p className="text-xs text-rose-600">{voiceError}</p>}
-                  </div>
+                  <p className="text-lg text-muted-foreground">
+                    Select a use case on the left to preview a live demo.
+                  </p>
                 </div>
-              </>
-            ) : (
-              <div className="flex h-full flex-col items-center justify-center gap-4 text-center text-muted-foreground">
-                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-muted-foreground">
-                  Explore a use case
-                </p>
-                <p className="text-lg text-muted-foreground">
-                  Select a use case on the left to preview a live demo.
-                </p>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>
