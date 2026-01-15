@@ -1,256 +1,72 @@
-import type React from "react"
+"use client"
 
-interface ParallelCodingAgentsProps {
-  className?: string
+import type React from "react"
+import { useEffect, useMemo, useState } from "react"
+
+const COUNTS = [1, 10, 1000, 50000]
+const GPU_LEVELS = [18, 32, 58, 86]
+
+const formatCount = (value: number) => {
+  if (value >= 1000) {
+    return value.toLocaleString("en-US")
+  }
+  return String(value)
 }
 
-const ParallelCodingAgents: React.FC<ParallelCodingAgentsProps> = ({ className = "" }) => {
-  // Theme-based CSS variables using global theme
-  const themeVars = {
-    "--pca-background-color": "hsl(var(--background))",
-    "--pca-background-glass": "hsl(var(--card) / 0.2)",
-    "--pca-background-gradient-start": "hsl(var(--card) / 0.2)",
-    "--pca-background-gradient-end": "transparent",
-    "--pca-text-primary": "hsl(var(--foreground))",
-    "--pca-text-secondary": "hsl(var(--muted-foreground))",
-    "--pca-border-color": "hsl(var(--border))",
-    "--pca-border-main": "hsl(var(--border))",
-    "--pca-shadow-color": "rgba(0, 0, 0, 0.12)", // Keeping as is, common shadow
-    "--pca-container-background": "hsl(var(--card) / 0.4)",
-    "--pca-container-gradient-start": "hsl(var(--card) / 0.4)",
-    "--pca-container-gradient-end": "transparent",
-  }
+const ParallelCodingAgents: React.FC = () => {
+  const [activeIndex, setActiveIndex] = useState(0)
 
-  const CheckmarkIcon = () => (
-    <svg
-      width="13.885"
-      height="13.885"
-      viewBox="0 0 14 14"
-      fill="none"
-      style={{ width: "13.885px", height: "13.885px" }}
-    >
-      <path
-        d="M3.85156 7.875L6.47656 10.5L10.8516 3.5"
-        stroke="var(--pca-text-primary)"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1.5"
-        opacity="0.8"
-      />
-    </svg>
-  )
+  useEffect(() => {
+    const id = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % COUNTS.length)
+    }, 1700)
 
-  const RefreshIcon = () => (
-    <svg
-      width="13.885"
-      height="13.885"
-      viewBox="0 0 14 14"
-      fill="none"
-      style={{ width: "13.885px", height: "13.885px" }}
-    >
-      <path
-        d="M1.75 7C1.75 4.1005 4.1005 1.75 7 1.75C9.8995 1.75 12.25 4.1005 12.25 7C12.25 9.8995 9.8995 12.25 7 12.25"
-        stroke="var(--pca-text-primary)"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1.5"
-        opacity="0.8"
-      />
-      <path
-        d="M4.375 10.5L1.75 12.25L3.5 9.625"
-        stroke="var(--pca-text-primary)"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1.5"
-        opacity="0.8"
-      />
-    </svg>
-  )
+    return () => clearInterval(id)
+  }, [])
 
-  const SparklesIcon = () => (
-    <svg
-      width="13.885"
-      height="13.885"
-      viewBox="0 0 14 14"
-      fill="none"
-      style={{ width: "13.885px", height: "13.885px" }}
-    >
-      <path
-        d="M7 1.75L8.225 5.775L12.25 7L8.225 8.225L7 12.25L5.775 8.225L1.75 7L5.775 5.775L7 1.75Z"
-        stroke="var(--pca-text-primary)"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1.5"
-        opacity="0.8"
-      />
-    </svg>
-  )
-
-  const agents = [
-    {
-      icon: <CheckmarkIcon />,
-      title: "Update call flows",
-      tokens: "12k tokens",
-      model: "o3",
-      branch: "indus/voice-flow...",
-    },
-    {
-      icon: <RefreshIcon />,
-      title: "Fix conversation edge cases",
-      tokens: "12k tokens",
-      model: "claude-sonnet-4",
-      branch: "indus/voice-flow...",
-    },
-    {
-      icon: <SparklesIcon />,
-      title: "Plan seamless escalation flows",
-      tokens: "30k tokens",
-      model: "o3",
-      branch: "indus/voice-flow...",
-    },
-  ]
+  const count = COUNTS[activeIndex]
+  const gpuLevel = GPU_LEVELS[activeIndex]
+  const activeBars = useMemo(() => Math.max(2, Math.round(gpuLevel / 12.5)), [gpuLevel])
 
   return (
     <div
-      className={className}
-      style={
-        {
-          width: "100%",
-          height: "100%",
-          position: "relative",
-          background: `linear-gradient(180deg, var(--pca-container-gradient-start) 0%, var(--pca-container-gradient-end) 100%)`,
-          backdropFilter: "blur(8.372px)",
-          borderRadius: "10.047px",
-          boxSizing: "border-box",
-          flexShrink: 0,
-          margin: "0 auto",
-          ...themeVars,
-        } as React.CSSProperties
-      }
+      className="relative h-full w-full p-5"
       role="img"
-      aria-label="Parallel voice agents handling different tasks simultaneously"
+      aria-label="Massive concurrent call handling with GPU autoscaling"
     >
-      {/* Inner content area with gradient background */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "flex-start", // Changed to flex-start for top alignment
-          gap: "16px",
-          padding: "20px",
-          height: "100%",
-          width: "calc(100% - 48px)", // Adjusted width for 24px margin on both sides
-          background: "linear-gradient(180deg, hsl(var(--primary) / 0.05) 0%, transparent 100%)", // Updated background property
-          backdropFilter: "blur(16px)",
-          borderRadius: "9.628px",
-          border: "0.802px solid hsl(var(--border))",
-          overflow: "hidden",
-          boxSizing: "border-box",
-          margin: "24px 24px 0 24px", // Updated margin to 24px on both sides
-        }}
-      >
-        {agents.map((agent, index) => (
-          <div
-            key={index}
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "flex-start",
-              gap: "8.658px",
-              padding: "6.494px 8.658px",
-              background: `linear-gradient(180deg, var(--pca-background-gradient-start) 0%, var(--pca-background-gradient-end) 100%)`,
-              backdropFilter: "blur(19.481px)",
-              borderRadius: "8.658px",
-              boxShadow: `0px 1.082px 2.165px 0px var(--pca-shadow-color)`,
-              border: "0.541px solid var(--pca-border-color)",
-              width: "100%",
-              maxWidth: "320px",
-              flexShrink: 0,
-              position: "relative",
-              overflow: "hidden",
-              boxSizing: "border-box",
-            }}
-          >
-            {/* Icon container */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "flex-start",
-                gap: "8.658px",
-                padding: "3.247px 0 0 0",
-                flexShrink: 0,
-              }}
-            >
-              <div
-                style={{
-                  width: "17.316px",
-                  height: "17.316px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  overflow: "hidden",
-                  flexShrink: 0,
-                }}
-              >
-                {agent.icon}
-              </div>
+      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/10 via-transparent to-transparent" />
+      <div className="relative flex h-full w-full flex-col gap-4 rounded-2xl border border-white/10 bg-background/40 p-4 backdrop-blur-md">
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground">Concurrent calls</p>
+          <span className="text-[11px] uppercase tracking-[0.26em] text-muted-foreground">GPU autoscale</span>
+        </div>
+
+        <div className="flex flex-1 flex-col justify-between rounded-2xl border border-white/10 bg-background/60 p-4">
+          <div>
+            <div className="text-4xl font-semibold text-foreground md:text-5xl">{formatCount(count)}</div>
+            <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">simultaneous calls</div>
+          </div>
+
+          <div className="mt-6">
+            <div className="flex items-center justify-between text-xs text-muted-foreground">
+              <span>GPU load</span>
+              <span>{gpuLevel}%</span>
             </div>
-            {/* Content container */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
-                justifyContent: "center",
-                gap: "2.164px",
-                padding: "0",
-                flexShrink: 0,
-                ...(index === 1
-                  ? {
-                      flexBasis: 0,
-                      flexGrow: 1,
-                      minHeight: "1px",
-                      minWidth: "1px",
-                    }
-                  : {}),
-              }}
-            >
-              <div
-                style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontWeight: 400,
-                  fontSize: "10.823px",
-                  lineHeight: "17.316px",
-                  color: "var(--pca-text-primary)",
-                  whiteSpace: "pre",
-                  flexShrink: 0,
-                }}
-              >
-                {agent.title}
-              </div>
-              <div
-                style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontWeight: 400,
-                  fontSize: "10.823px",
-                  lineHeight: "17.316px",
-                  color: "var(--pca-text-secondary)",
-                  whiteSpace: index === 1 ? "nowrap" : "pre",
-                  overflow: index === 1 ? "hidden" : "visible",
-                  textOverflow: index === 1 ? "ellipsis" : "clip",
-                  width: index === 1 ? "100%" : "auto",
-                  minWidth: index === 1 ? "100%" : "auto",
-                  flexShrink: 0,
-                }}
-              >
-                {`${agent.tokens} • ${agent.model} • ${agent.branch}`}
-              </div>
+            <div className="mt-3 grid grid-cols-10 items-end gap-1">
+              {Array.from({ length: 10 }).map((_, index) => (
+                <span
+                  key={`gpu-${index}`}
+                  className={`indus-gpu-bar ${index < activeBars ? "bg-primary/70" : "bg-white/10"}`}
+                  style={{ animationDelay: `${index * 0.12}s` }}
+                />
+              ))}
             </div>
           </div>
-        ))}
+        </div>
+
+        <div className="text-xs text-muted-foreground">
+          Handle tens of thousands of simultaneous voice conversations with predictable latency.
+        </div>
       </div>
     </div>
   )

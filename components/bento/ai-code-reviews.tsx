@@ -1,232 +1,46 @@
 import type React from "react"
 
-const AiCodeReviews: React.FC = () => {
-  const themeVars = {
-    "--ai-primary-color": "hsl(var(--primary))",
-    "--ai-background-color": "hsl(var(--background))",
-    "--ai-text-color": "hsl(var(--foreground))",
-    "--ai-text-dark": "hsl(var(--primary-foreground))",
-    "--ai-border-color": "hsl(var(--border))",
-    "--ai-border-main": "hsl(var(--foreground) / 0.1)",
-    "--ai-highlight-primary": "hsl(var(--primary) / 0.12)",
-    "--ai-highlight-header": "hsl(var(--accent) / 0.2)",
-  }
+const LATENCY_STAGES = ["Waveform", "STT", "LLM", "TTS"]
 
+const AiCodeReviews: React.FC = () => {
   return (
-    <div
-      style={
-        {
-          width: "100%",
-          height: "100%",
-          position: "relative",
-          background: "transparent",
-          ...themeVars,
-        } as React.CSSProperties
-      }
-      role="img"
-      aria-label="AI voice intelligence interface showing suggested updates with apply controls"
-    >
-      {/* Background Message Box (Blurred) */}
-      <div
-        style={{
-          position: "absolute",
-          top: "30px",
-          left: "50%",
-          transform: "translateX(-50%) scale(0.9)",
-          width: "340px",
-          height: "205.949px",
-          background: "linear-gradient(180deg, var(--ai-background-color) 0%, transparent 100%)",
-          opacity: 0.6,
-          borderRadius: "8.826px",
-          border: "0.791px solid var(--ai-border-color)",
-          overflow: "hidden",
-          backdropFilter: "blur(16px)",
-        }}
-      >
-        <div
-          className="border rounded-lg bg-card"
-          style={{
-            padding: "7.355px 8.826px",
-            height: "100%",
-            boxSizing: "border-box",
-            overflow: "hidden",
-          }}
-        >
-          <div
-            style={{
-              fontFamily: "'Geist Mono', 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
-              fontSize: "9.562px",
-              lineHeight: "14.711px",
-              letterSpacing: "-0.2942px",
-              color: "hsl(var(--muted-foreground))",
-              width: "100%",
-              maxWidth: "320px",
-              margin: 0,
-            }}
-          >
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400 }}>switch (type) {"{"}</p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400 }}> case 'success':</p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400 }}> return {"{"}</p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400 }}>
-              {"          border: theme === 'dark' ? 'border-[rgba(34,197,94,0.4)]' : 'border-green-200',"}
-            </p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400 }}> icon: (</p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400 }}>
-              {'            <svg className={\'baseIconClasses\'} fill="none" viewBox="0 0 14 14">'}
-            </p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400 }}> &lt;path</p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400 }}>
-              {'                d="M3.85156 7.875L6.47656 10.5L10.8516 3.5"'}
-            </p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400 }}>
-              {'                stroke="var(--ai-primary-color)"'}
-            </p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400 }}>
-              {'                strokeLinecap="round"'}
-            </p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400 }}>
-              {'                strokeLinejoin="round"'}
-            </p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400 }}>{'                strokeWidth="1.5"'}</p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400 }}> /&gt;</p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400 }}> &lt;/svg&gt;</p>
+    <div className="relative h-full w-full p-5" role="img" aria-label="Ultra-low latency voice pipeline timeline">
+      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/10 via-transparent to-transparent" />
+      <div className="relative flex h-full w-full flex-col gap-4 rounded-2xl border border-white/10 bg-background/40 p-4 backdrop-blur-md">
+        <div className="flex items-center justify-between gap-3">
+          <div className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+            Avg end-to-end latency: 180-280ms
+          </div>
+          <span className="text-[11px] uppercase tracking-[0.26em] text-muted-foreground">Ultra-Low</span>
+        </div>
+
+        <div className="rounded-2xl border border-white/10 bg-background/60 p-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Live speech</p>
+          <div className="mt-3 flex items-end gap-1">
+            {Array.from({ length: 16 }).map((_, index) => (
+              <span
+                key={`wave-${index}`}
+                className="indus-wave-bar"
+                style={{ animationDelay: `${index * 0.08}s`, height: `${10 + (index % 5) * 6}px` }}
+              />
+            ))}
           </div>
         </div>
-      </div>
 
-      {/* Foreground Message Box (Main) */}
-      <div
-        style={{
-          position: "absolute",
-          top: "51.336px",
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: "340px",
-          height: "221.395px",
-          background: "var(--ai-background-color)",
-          backdropFilter: "blur(16px)",
-          borderRadius: "9.488px",
-          border: "1px solid var(--ai-border-main)",
-          overflow: "hidden",
-        }}
-      >
-        <div
-          className="bg-card border border-border"
-          style={{
-            padding: "9.488px",
-            height: "100%",
-            boxSizing: "border-box",
-            position: "relative",
-            overflow: "hidden",
-          }}
-        >
-          <div
-            style={{
-              position: "absolute",
-              left: 0,
-              right: 0,
-              width: "100%",
-              top: "47.67px",
-              height: "33.118px",
-              background: "hsl(var(--foreground) / 0.08)",
-              zIndex: 1,
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              left: 0,
-              right: 0,
-              width: "100%",
-              top: "80.791px",
-              height: "45.465px",
-              background: "var(--ai-highlight-primary)",
-              zIndex: 1,
-            }}
-          />
-          <div
-            style={{
-              fontFamily: "'Geist Mono', 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
-              fontSize: "10.279px",
-              lineHeight: "15.814px",
-              letterSpacing: "-0.3163px",
-              color: "var(--ai-text-color)",
-              width: "100%",
-              maxWidth: "320px",
-              position: "relative",
-              zIndex: 2,
-              margin: 0,
-            }}
-          >
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400 }}>switch (type) {"{"}</p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400 }}> case 'success':</p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400 }}> return {"{"}</p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400 }}>
-              {"          border: theme === 'dark' ? 'border-[rgba(34,197,94,0.4)]' : 'border-green-200',"}
-            </p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400 }}> icon: (</p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400 }}>
-              {'            <svg className={\'baseIconClasses\'} fill="none" viewBox="0 0 14 14">'}
-            </p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400 }}> &lt;path</p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400 }}>
-              {'                d="M3.85156 7.875L6.47656 10.5L10.8516 3.5"'}
-            </p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400 }}>{'                stroke="#22C55E"'}</p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400 }}>
-              {'                strokeLinecap="round"'}
-            </p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400 }}>
-              {'                strokeLinejoin="round"'}
-            </p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400 }}>{'                strokeWidth="1.5"'}</p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400 }}> /&gt;</p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400 }}> &lt;/svg&gt;</p>
+        <div className="relative mt-2">
+          <div className="absolute left-4 right-4 top-3 h-px bg-white/10" />
+          <div className="grid grid-cols-4 gap-4 text-center text-xs text-muted-foreground">
+            {LATENCY_STAGES.map((stage) => (
+              <div key={stage} className="flex flex-col items-center gap-2">
+                <span className="h-3 w-3 rounded-full border border-primary/40 bg-primary/20 shadow-[0_0_12px_rgba(120,252,214,0.3)]" />
+                <span>{stage}</span>
+              </div>
+            ))}
           </div>
-          <button
-            style={{
-              position: "absolute",
-              top: "calc(50% + 29.745px)",
-              right: "20px",
-              transform: "translateY(-50%)",
-              zIndex: 3,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "3.953px",
-              background: "var(--ai-primary-color)",
-              color: "var(--ai-text-dark)",
-              border: "none",
-              cursor: "pointer",
-              fontWeight: 500,
-              whiteSpace: "nowrap",
-              transition: "all 0.2s ease",
-              padding: "3.163px 6.326px",
-              borderRadius: "5.535px",
-              fontSize: "10.279px",
-              lineHeight: "15.814px",
-              letterSpacing: "-0.3163px",
-              boxShadow:
-                "0px 26.093px 7.116px rgba(0, 0, 0, 0), 0px 16.605px 6.326px rgba(0, 0, 0, 0.01), 0px 9.488px 5.535px rgba(0, 0, 0, 0.05), 0px 3.953px 3.953px rgba(0, 0, 0, 0.09), 0px 0.791px 2.372px rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <span
-              style={{
-                fontFamily: "'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-                fontWeight: 500,
-              }}
-            >
-              Apply flow updates
-            </span>
-            <span
-              style={{
-                fontFamily: "'SF Pro', -apple-system, BlinkMacSystemFont, system-ui, sans-serif",
-                fontWeight: 500,
-              }}
-            >
-              instantly
-            </span>
-          </button>
+        </div>
+
+        <div className="text-xs text-muted-foreground">
+          Sub-300ms response time from user speech to AI voice reply.
         </div>
       </div>
     </div>

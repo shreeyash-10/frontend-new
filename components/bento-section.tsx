@@ -36,39 +36,39 @@ const BentoCard = ({ title, description, Component }) => (
 export function BentoSection() {
   const cards = [
     {
-      title: "AI-powered voice intelligence.",
-      description: "Get real-time insights, intent detection, and next-best actions from every conversation.",
+      title: "Ultra-Low Latency Voice (<300ms)",
+      description: "Sub-300ms response time from user speech to AI voice reply - optimized for real conversations, not demos.",
       Component: AiCodeReviews,
     },
     {
-      title: "Real-time call & conversation previews",
-      description: "Monitor, debug, and improve live voice conversations instantly.",
+      title: "Streaming Speech-to-Speech Pipeline",
+      description: "True streaming STT -> LLM -> TTS. No turn breaks. No awkward pauses. Human-like flow.",
       Component: RealtimeCodingPreviews,
     },
     {
-      title: "Plug-and-play integrations",
-      description: "Connect IndusLabs with CRMs, telephony, messaging, and enterprise systems effortlessly.",
+      title: "Carrier-Grade Call Stability (99.95% uptime)",
+      description: "Built for production voice traffic with automatic failover, jitter buffering, and packet-loss recovery.",
       Component: OneClickIntegrationsIllustration,
     },
     {
-      title: "Flexible Voice & LLM orchestration",
-      description: "Effortlessly manage STT, TTS, LLMs, and orchestration layers from a single console.",
+      title: "Multi-LLM + Multi-TTS Hot Switching",
+      description: "Instantly switch models per call, per language, or per cost tier - without redeploying.",
       Component: MCPConnectivityIllustration, // Updated component
     },
     {
-      title: "Launch parallel voice agents", // Swapped position
-      description: "Handle thousands of conversations simultaneously with coordinated AI voice agents.",
+      title: "Massive Concurrent Call Handling", // Swapped position
+      description: "Handle tens of thousands of simultaneous voice conversations with predictable latency.",
       Component: ParallelCodingAgents, // Updated component
     },
     {
-      title: "Production deployment made simple", // Swapped position
-      description: "Go from prompt to live voice deployment instantly.",
+      title: "Real-Time Cost & Latency Observability", // Swapped position
+      description: "See cost per minute, latency spikes, and model usage - live, per call.",
       Component: EasyDeployment,
     },
   ]
 
   return (
-    <section className="w-full px-5 flex flex-col justify-center items-center overflow-visible bg-transparent">
+    <section className="w-full px-5 flex flex-col justify-center items-center overflow-hidden bg-transparent">
       <div className="w-full py-8 md:py-16 relative flex flex-col justify-start items-start gap-6">
         <div className="w-[547px] h-[938px] absolute top-[614px] left-[80px] origin-top-left rotate-[-33.39deg] bg-primary/10 blur-[130px] z-0" />
         <div className="self-stretch py-8 md:py-14 flex flex-col justify-center items-center gap-2 z-10">

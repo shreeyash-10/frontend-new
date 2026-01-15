@@ -126,3 +126,135 @@
     transform: translate(0, 0) rotate(360deg);
   }
 }
+
+.indus-wave-bar {
+  width: 6px;
+  border-radius: 999px;
+  background: hsl(var(--primary) / 0.65);
+  transform-origin: bottom;
+  animation: indus-wave 1.25s ease-in-out infinite;
+}
+
+.indus-wave-bar--dense {
+  width: 5px;
+}
+
+.indus-stream-pulse {
+  position: absolute;
+  inset: 0;
+  width: 32%;
+  background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.6), transparent);
+  animation: indus-stream 2.3s linear infinite;
+}
+
+.indus-failover-line {
+  stroke-dasharray: 10 10;
+  animation: indus-flow 4.5s linear infinite;
+}
+
+.indus-node {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: hsl(var(--primary));
+  box-shadow: 0 0 12px hsl(var(--primary) / 0.6);
+  position: relative;
+}
+
+.indus-node::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 999px;
+  border: 1px solid hsl(var(--primary) / 0.35);
+  animation: indus-pulse 2.4s ease-out infinite;
+}
+
+.indus-gpu-bar {
+  width: 100%;
+  height: 22px;
+  border-radius: 999px;
+  transform-origin: bottom;
+  animation: indus-gpu 1.8s ease-in-out infinite;
+}
+
+.indus-graph-dot {
+  position: absolute;
+  left: 0;
+  top: 60%;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: hsl(var(--primary));
+  box-shadow: 0 0 10px hsl(var(--primary) / 0.6);
+  animation: indus-graph 3.4s ease-in-out infinite;
+}
+
+@keyframes indus-wave {
+  0%,
+  100% {
+    transform: scaleY(0.5);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+@keyframes indus-stream {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(320%);
+  }
+}
+
+@keyframes indus-flow {
+  0% {
+    stroke-dashoffset: 40;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes indus-pulse {
+  0% {
+    transform: scale(0.7);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+
+@keyframes indus-gpu {
+  0%,
+  100% {
+    transform: scaleY(0.65);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes indus-graph {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(80px, -10px);
+  }
+  50% {
+    transform: translate(160px, -4px);
+  }
+  75% {
+    transform: translate(240px, -12px);
+  }
+  100% {
+    transform: translate(320px, -6px);
+  }
+}

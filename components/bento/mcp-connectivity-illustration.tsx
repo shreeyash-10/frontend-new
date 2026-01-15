@@ -1,164 +1,85 @@
+"use client"
+
 import type React from "react"
-import { Search } from "lucide-react"
+import { useEffect, useState } from "react"
 
-interface McpConnectivityIllustrationProps {
-  className?: string
-}
+const LLM_OPTIONS = ["Groq", "OpenAI", "Claude"]
+const TTS_OPTIONS = ["Murf", "Eleven", "Custom Voice"]
 
-const McpConnectivityIllustration: React.FC<McpConnectivityIllustrationProps> = ({ className = "" }) => {
-  // Integration data with new SVG paths
-  const integrations = [
-    { name: "CRM", icon: "/images/mcp-integrations/figma.svg", installed: true },
-    { name: "Telephony", icon: "/images/mcp-integrations/nextjs.svg", installed: true },
-    { name: "WhatsApp", icon: "/images/mcp-integrations/shadcn.svg" },
-    { name: "Webhooks", icon: "/images/mcp-integrations/tailwind-css.svg", installed: true },
-    { name: "Databases", icon: "/images/mcp-integrations/react.svg" },
-  ]
+const McpConnectivityIllustration: React.FC = () => {
+  const [activeLlm, setActiveLlm] = useState(0)
+  const [activeTts, setActiveTts] = useState(0)
+
+  useEffect(() => {
+    const llmInterval = setInterval(() => {
+      setActiveLlm((prev) => (prev + 1) % LLM_OPTIONS.length)
+    }, 2200)
+
+    const ttsInterval = setInterval(() => {
+      setActiveTts((prev) => (prev + 1) % TTS_OPTIONS.length)
+    }, 2600)
+
+    return () => {
+      clearInterval(llmInterval)
+      clearInterval(ttsInterval)
+    }
+  }, [])
 
   return (
-    <div
-      className={`w-full h-full flex items-center justify-center p-4 relative ${className}`}
-      role="img"
-      aria-label="Voice and LLM orchestration component showcasing connected integrations list"
-    >
-      {/* Main Message Box */}
-      <div
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, calc(-50% + 24px))",
-          width: "345px",
-          height: "277px",
-          background: "linear-gradient(180deg, hsl(var(--background)) 0%, transparent 100%)",
-          backdropFilter: "blur(16px)",
-          borderRadius: "9.628px",
-          border: "0.802px solid hsl(var(--border))",
-          overflow: "hidden",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            height: "100%",
-            width: "100%",
-          }}
-        >
-          {/* Search Header */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "12.837px",
-              padding: "8.826px 12.837px",
-              borderBottom: "0.802px solid hsl(var(--border))",
-              width: "100%",
-              boxSizing: "border-box",
-            }}
-          >
-            <div
-              style={{
-                width: "14.442px",
-                height: "14.442px",
-                position: "relative",
-                flexShrink: 0,
-              }}
-            >
-              <Search className="w-full h-full text-muted-foreground" />
-            </div>
-            <span
-              style={{
-                fontFamily: "'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-                fontSize: "12.837px",
-                lineHeight: "19.256px",
-                color: "hsl(var(--muted-foreground))",
-                fontWeight: 400,
-                whiteSpace: "nowrap",
-              }}
-            >
-              Browse integrations
-            </span>
-          </div>
-          {/* Integration List */}
-          {integrations.map((integration, index) => (
-            <div
-              key={integration.name}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                padding: "8.826px 12.837px",
-                borderBottom: index < integrations.length - 1 ? "0.479px solid hsl(var(--border))" : "none",
-                width: "100%",
-                boxSizing: "border-box",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "12.837px",
-                }}
-              >
-                <div
-                  style={{
-                    width: "24px",
-                    height: "24px",
-                    position: "relative",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexShrink: 0,
-                  }}
-                >
-                  <img
-                    src={integration.icon || "/placeholder.svg"}
-                    alt={integration.name}
-                    className="w-full h-full object-contain opacity-70 grayscale" // Apply opacity and grayscale
-                  />
-                </div>
-                <span
-                  style={{
-                    fontFamily: "'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-                    fontSize: "12.837px",
-                    lineHeight: "19.256px",
-                    color: "hsl(var(--muted-foreground))",
-                    fontWeight: 400,
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {integration.name}
-                </span>
-              </div>
-              {integration.installed && (
-                <div
-                  style={{
-                    background: "hsl(var(--primary) / 0.08)",
-                    padding: "1.318px 5.272px",
-                    borderRadius: "3.295px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <span
-                    style={{
-                      fontFamily: "'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-                      fontSize: "9.583px",
-                      lineHeight: "15.333px",
-                      color: "hsl(var(--primary))",
-                      fontWeight: 500,
-                      whiteSpace: "nowrap",
-                    }}
-                    >
-                      Connected
-                    </span>
-                  </div>
-              )}
-            </div>
-          ))}
+    <div className="relative h-full w-full p-5" role="img" aria-label="Multi-LLM and multi-TTS hot switching">
+      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/10 via-transparent to-transparent" />
+      <div className="relative flex h-full w-full flex-col gap-4 rounded-2xl border border-white/10 bg-background/40 p-4 backdrop-blur-md">
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground">Hot switching</p>
+          <span className="text-[11px] uppercase tracking-[0.26em] text-muted-foreground">Per call</span>
         </div>
+
+        <div className="flex flex-1 flex-col gap-4">
+          <div className="rounded-2xl border border-white/10 bg-background/60 p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">LLM routing</p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {LLM_OPTIONS.map((option, index) => (
+                <span
+                  key={option}
+                  className={`rounded-full border px-3 py-1 text-xs font-semibold transition ${
+                    index === activeLlm
+                      ? "border-primary/40 bg-primary/10 text-primary"
+                      : "border-white/10 text-muted-foreground"
+                  }`}
+                >
+                  {option}
+                </span>
+              ))}
+            </div>
+            <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" />
+              Swapping per cost tier and language.
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-white/10 bg-background/60 p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">TTS voice stack</p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {TTS_OPTIONS.map((option, index) => (
+                <span
+                  key={option}
+                  className={`rounded-full border px-3 py-1 text-xs font-semibold transition ${
+                    index === activeTts
+                      ? "border-primary/40 bg-primary/10 text-primary"
+                      : "border-white/10 text-muted-foreground"
+                  }`}
+                >
+                  {option}
+                </span>
+              ))}
+            </div>
+            <div className="mt-3 text-xs text-muted-foreground">
+              Switch without redeploying or reindexing calls.
+            </div>
+          </div>
+        </div>
+
+        <div className="text-xs text-muted-foreground">Instantly swap models per call, per language, per cost tier.</div>
       </div>
     </div>
   )

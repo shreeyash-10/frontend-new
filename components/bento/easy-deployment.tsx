@@ -1,156 +1,63 @@
 import type React from "react"
 
-interface DeploymentEasyProps {
-  /** Width of component – number (px) or any CSS size value */
-  width?: number | string
-  /** Height of component – number (px) or any CSS size value */
-  height?: number | string
-  /** Extra Tailwind / CSS classes for root element */
-  className?: string
-}
-
-const DeploymentEasy: React.FC<DeploymentEasyProps> = ({ width = "100%", height = "100%", className = "" }) => {
-  /* ------------------------------------------------------------
-   * Theme-based design tokens using global CSS variables
-   * ---------------------------------------------------------- */
-  const themeVars = {
-    "--deploy-primary-color": "hsl(var(--primary))",
-    "--deploy-background-color": "hsl(var(--background))",
-    "--deploy-text-color": "hsl(var(--foreground))",
-    "--deploy-text-secondary": "hsl(var(--muted-foreground))",
-    "--deploy-border-color": "hsl(var(--border))",
-  } as React.CSSProperties
-
-  /* ------------------------------------------------------------
-   * Console log output (static for demo) – can be replaced via props
-   * ---------------------------------------------------------- */
-  const logLines = [
-    "[16:37:25.637] Preparing voice deployment in Mumbai, IN (ap-south-1)",
-    "[16:37:25.638] Runtime configuration: 2 cores, 8 GB",
-    "[16:37:25.653] Fetching agent configs...",
-    "[16:37:25.741] Previous build caches not available",
-    "[16:37:25.979] Syncing 84 pipeline files...",
-    '[16:37:29.945] Running "induslabs deploy"',
-    "[16:37:30.561] IndusLabs CLI 1.12.0",
-    '[16:37:30.880] Running "install" command: voice-runtime install...',
-    "[16:37:30.914] voice-runtime v1.8.2",
-    "[16:37:30.940] Resolving dependencies",
-    "[16:37:34.436] Resolved, downloaded and extracted [1116]",
-    '[16:37:34.436] warn: optional dependency "tts-voice-pack" missing',
-    "[16:37:37.265] Saved lockfile",
-    "[16:37:39.076] Voice pipeline telemetry notice",
-    "[16:37:39.137] ▲ Indus Voice Runtime 1.8.2",
-    "[16:37:41.439] ✓ Compiled agents successfully",
-    "[16:37:53.979] ✓ Generated production artifacts",
-    "[16:38:00.585] ○ (Static) prerendered configs",
-    "[16:38:01.099] Build completed in /indus/output [30s]",
-    "🚀 Deployment complete – IndusLabs",
+const DeploymentEasy: React.FC = () => {
+  const breakdown = [
+    { label: "Call #2194", cost: "$0.42/min", latency: "214ms", model: "Groq + Eleven" },
+    { label: "Call #2195", cost: "$0.38/min", latency: "201ms", model: "Claude + Murf" },
+    { label: "Call #2196", cost: "$0.44/min", latency: "236ms", model: "OpenAI + Custom" },
   ]
 
   return (
-    <div
-      className={`w-full h-full flex items-center justify-center p-4 relative ${className}`}
-      style={{
-        width,
-        height,
-        position: "relative",
-        background: "transparent",
-        ...themeVars,
-      }}
-      role="img"
-      aria-label="Deployment console output with Deploy with IndusLabs button"
-    >
-      {/* -------------------------------------------------------- */}
-      {/* Console / Terminal panel                                */}
-      {/* -------------------------------------------------------- */}
-      <div
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: "340px",
-          height: "239px",
-          background: "linear-gradient(180deg, var(--deploy-background-color) 0%, transparent 100%)",
-          backdropFilter: "blur(7.907px)",
-          borderRadius: "10px",
-          overflow: "hidden",
-        }}
-      >
-        {/* Inner translucent panel – replicates subtle overlay */}
-        <div
-          style={{
-            position: "absolute",
-            inset: "2px",
-            borderRadius: "8px",
-            background: "hsl(var(--foreground) / 0.08)",
-          }}
-        />
-
-        {/* Log text */}
-        <div
-          style={{
-            position: "relative",
-            padding: "8px",
-            height: "100%",
-            overflow: "hidden",
-            fontFamily: "'Geist Mono', 'SF Mono', Monaco, Consolas, 'Liberation Mono', monospace",
-            fontSize: "10px",
-            lineHeight: "16px",
-            color: "var(--deploy-text-color)",
-            whiteSpace: "pre",
-          }}
-        >
-          {logLines.map((line, index) => (
-            <p key={index} style={{ margin: 0 }}>
-              {line}
-            </p>
-          ))}
+    <div className="relative h-full w-full p-5" role="img" aria-label="Real-time cost and latency observability">
+      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/10 via-transparent to-transparent" />
+      <div className="relative flex h-full w-full flex-col gap-4 rounded-2xl border border-white/10 bg-background/40 p-4 backdrop-blur-md">
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground">Live observability</p>
+          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
+            Live
+          </div>
         </div>
 
-        {/* Inner border overlay */}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            border: "0.791px solid var(--deploy-border-color)",
-            borderRadius: "10px",
-            pointerEvents: "none",
-          }}
-        />
-      </div>
+        <div className="flex flex-1 flex-col gap-4 rounded-2xl border border-white/10 bg-background/60 p-4">
+          <div className="flex items-center justify-between text-xs text-muted-foreground">
+            <span>Latency vs Cost per minute</span>
+            <span>Last 60s</span>
+          </div>
+          <div className="relative flex-1 rounded-xl border border-white/10 bg-background/80 p-3">
+            <svg className="h-full w-full" viewBox="0 0 320 120" aria-hidden="true">
+              <polyline
+                points="0,78 40,62 80,70 120,46 160,54 200,40 240,56 280,44 320,50"
+                fill="none"
+                stroke="hsl(var(--primary))"
+                strokeWidth="2"
+              />
+              <polyline
+                points="0,92 40,86 80,90 120,80 160,88 200,72 240,82 280,76 320,78"
+                fill="none"
+                stroke="hsl(var(--foreground) / 0.4)"
+                strokeWidth="2"
+              />
+            </svg>
+            <span className="indus-graph-dot" />
+          </div>
 
-      {/* -------------------------------------------------------- */}
-      {/* Call-to-action button                                   */}
-      {/* -------------------------------------------------------- */}
-      <button
-        style={{
-          position: "absolute",
-          top: "calc(50% + 57.6px)",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "6.375px",
-          padding: "5.1px 10.2px",
-          background: "var(--deploy-primary-color)",
-          color: "hsl(var(--primary-foreground))",
-          border: "none",
-          cursor: "pointer",
-          borderRadius: "8.925px",
-          fontFamily: "'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-          fontSize: "16.575px",
-          lineHeight: "25.5px",
-          letterSpacing: "-0.51px",
-          fontWeight: 500,
-          whiteSpace: "nowrap",
-          boxShadow:
-            "0px 42.075px 11.475px rgba(0, 0, 0, 0), 0px 26.775px 10.2px rgba(0, 0, 0, 0.01), 0px 15.3px 8.925px rgba(0, 0, 0, 0.05), 0px 6.375px 6.375px rgba(0, 0, 0, 0.09), 0px 1.275px 3.825px rgba(0, 0, 0, 0.1)",
-        }}
-      >
-        🚀 Deploy with IndusLabs
-      </button>
+          <div className="grid gap-2 text-xs text-muted-foreground">
+            {breakdown.map((row) => (
+              <div key={row.label} className="flex flex-wrap items-center justify-between gap-2">
+                <span className="text-foreground/90">{row.label}</span>
+                <span>{row.cost}</span>
+                <span>{row.latency}</span>
+                <span className="text-muted-foreground">{row.model}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="text-xs text-muted-foreground">
+          See cost per minute, latency spikes, and model usage live per call.
+        </div>
+      </div>
     </div>
   )
 }

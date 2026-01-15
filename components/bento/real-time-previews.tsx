@@ -1,255 +1,75 @@
 "use client"
 
 import type React from "react"
+import { useEffect, useState } from "react"
+
+const STREAM_STATES = ["Listening", "Thinking", "Speaking"]
 
 const RealtimeCodingPreviews: React.FC = () => {
-  const themeVars = {
-    "--realtime-primary-color": "hsl(var(--primary))",
-    "--realtime-background-editor": "hsl(var(--background) / 0.8)", // Tinted gray from background
-    "--realtime-background-preview": "hsl(var(--background) / 0.8)", // Tinted gray from background
-    "--realtime-text-color": "hsl(var(--foreground))",
-    "--realtime-text-editor": "hsl(var(--foreground))",
-    "--realtime-text-preview": "hsl(var(--primary-foreground))", // For button text
-    "--realtime-border-color": "hsl(var(--border))",
-    "--realtime-border-main": "hsl(var(--border))",
-    "--realtime-connection-color": "hsl(var(--muted-foreground))",
-  }
+  const [activeState, setActiveState] = useState(0)
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setActiveState((prev) => (prev + 1) % STREAM_STATES.length)
+    }, 1600)
+
+    return () => clearInterval(id)
+  }, [])
 
   return (
-    <div
-      className="" // Remove className prop if not used
-      style={
-        {
-          width: "100%", // Use 100% for responsiveness within parent
-          height: "100%", // Use 100% for responsiveness within parent
-          position: "relative",
-          background: "transparent",
-          ...themeVars,
-      } as React.CSSProperties
-      }
-      role="img"
-      aria-label="Real-time call and conversation previews interface showing live monitoring"
-    >
-      {/* Left Panel - Code Editor */}
-      <div
-        style={{
-          position: "absolute",
-          top: "46px",
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: "350px",
-          height: "221px",
-          background: "linear-gradient(180deg, var(--realtime-background-editor) 0%, transparent 100%)",
-          backdropFilter: "blur(7.907px)",
-          borderRadius: "9.488px",
-          border: "1px solid var(--realtime-border-main)",
-          overflow: "hidden",
-          boxSizing: "border-box",
-        }}
-        data-name="code-editor"
-      >
-        <div
-          style={{
-            padding: "9.488px 9.492px",
-            height: "100%",
-            boxSizing: "border-box",
-            position: "relative",
-            overflow: "hidden",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            justifyContent: "flex-start",
-          }}
-        >
-          <div
-            style={{
-              fontFamily: "'Geist Mono', 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
-              fontSize: "10.279px",
-              lineHeight: "15.814px",
-              letterSpacing: "-0.3163px",
-              color: "var(--realtime-text-editor)",
-              width: "545.453px",
-              maxWidth: "100%",
-              position: "relative",
-              margin: 0,
-              flexGrow: 1,
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-            }}
-          >
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400, display: "block" }}>switch (type) {"{"}</p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400, display: "block" }}> case 'success':</p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400, display: "block" }}> return {"{"}</p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400, display: "block" }}>
-              {" "}
-              border: theme === 'dark' ? 'border-[rgba(34,197,94,0.4)]' : 'border-green-200',
-            </p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400, display: "block" }}> icon: (</p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400, display: "block" }}>
-              {" "}
-              &lt;svg className={"{baseIconClasses}"} fill="none" viewBox="0 0 14 14"&gt;
-            </p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400, display: "block" }}> &lt;path</p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400, display: "block" }}>
-              {" "}
-              d="M3.85156 7.875L6.47656 10.5L10.8516 3.5"
-            </p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400, display: "block" }}>
-              {" "}
-              stroke="var(--realtime-primary-color)"
-            </p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400, display: "block" }}>
-              {" "}
-              strokeLinecap="round"
-            </p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400, display: "block" }}>
-              {" "}
-              strokeLinejoin="round"
-            </p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400, display: "block" }}> strokeWidth="1.5"</p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400, display: "block" }}> /&gt;</p>
-            <p style={{ margin: 0, whiteSpace: "pre-wrap", fontWeight: 400, display: "block" }}> &lt;/svg&gt;</p>
+    <div className="relative h-full w-full p-5" role="img" aria-label="Streaming speech-to-speech pipeline">
+      <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-primary/10 via-transparent to-transparent" />
+      <div className="relative flex h-full w-full flex-col gap-4 rounded-2xl border border-white/10 bg-background/40 p-4 backdrop-blur-md">
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground">Streaming pipeline</p>
+          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
+            Live
           </div>
         </div>
-      </div>
 
-      {/* Right Panel - Live Preview */}
-      <div
-        style={{
-          position: "absolute",
-          top: "46px",
-          left: "calc(50% + 87.499px)",
-          transform: "translateX(-50%)",
-          width: "175px",
-          height: "221px",
-          background: "linear-gradient(180deg, var(--realtime-background-preview) 0%, transparent 100%)",
-          backdropFilter: "blur(7.907px)",
-          borderRadius: "9.488px",
-          borderTopRightRadius: "9.488px",
-          // Removed the border property from here
-          overflow: "hidden",
-          boxSizing: "border-box",
-        }}
-        data-name="preview-panel"
-      >
-        <div
-          style={{
-            padding: "9.488px 9.492px",
-            height: "100%",
-            boxSizing: "border-box",
-            position: "relative",
-            overflow: "hidden",
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "flex-start",
-            justifyContent: "center",
-            background: "var(--realtime-background-preview)", // Applied solid background here
-          }}
-        >
-          {/* Download Button - Exact positioning from Figma */}
-          <div
-            style={{
-              position: "absolute",
-              top: "calc(50% + 0.001px)",
-              left: "calc(50% - 71.501px)",
-              transform: "translate(-50%, -50%)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "7.907px",
-              background: "var(--realtime-primary-color)",
-              color: "var(--realtime-text-preview)",
-              border: "none",
-              cursor: "pointer",
-              fontWeight: 500,
-              whiteSpace: "nowrap",
-              transition: "all 0.2s ease",
-              padding: "6.326px 12.651px",
-              borderRadius: "11.07px",
-              boxShadow:
-                "0px 52.186px 14.233px rgba(0, 0, 0, 0), 0px 33.209px 12.651px rgba(0, 0, 0, 0.01), 0px 18.977px 11.07px rgba(0, 0, 0, 0.05), 0px 7.907px 7.907px rgba(0, 0, 0, 0.09), 0px 1.581px 4.744px rgba(0, 0, 0, 0.1)",
-              boxSizing: "border-box",
-            }}
-          >
-            <div
-              style={{
-                fontFamily: "'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-                fontSize: "20.558px",
-                lineHeight: "31.628px",
-                letterSpacing: "-0.6326px",
-                fontWeight: 500,
-                color: "var(--realtime-text-preview)", // Changed to use theme variable
-                textAlign: "left",
-                whiteSpace: "pre",
-              }}
-            >
-              Review live call
+        <div className="flex flex-1 gap-4">
+          <div className="flex flex-1 flex-col justify-between rounded-xl border border-white/10 bg-background/60 p-4">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                Continuous waveform
+              </p>
+              <div className="mt-3 flex items-end gap-1">
+                {Array.from({ length: 18 }).map((_, index) => (
+                  <span
+                    key={`stream-wave-${index}`}
+                    className="indus-wave-bar indus-wave-bar--dense"
+                    style={{ animationDelay: `${index * 0.06}s`, height: `${8 + (index % 6) * 5}px` }}
+                  />
+                ))}
+              </div>
+            </div>
+            <div className="mt-4">
+              <div className="relative h-1 w-full overflow-hidden rounded-full bg-white/10">
+                <span className="indus-stream-pulse" />
+              </div>
+              <div className="mt-2 text-xs text-muted-foreground">No turn breaks. No awkward pauses.</div>
             </div>
           </div>
+
+          <div className="flex w-36 flex-col gap-2">
+            {STREAM_STATES.map((state, index) => (
+              <div
+                key={state}
+                className={`rounded-full border px-3 py-2 text-xs font-semibold transition ${
+                  index === activeState
+                    ? "border-primary/40 bg-primary/10 text-primary"
+                    : "border-white/10 text-muted-foreground"
+                }`}
+              >
+                {state}...
+              </div>
+            ))}
+          </div>
         </div>
+
+        <div className="text-xs text-muted-foreground">True streaming STT -> LLM -> TTS with human-like flow.</div>
       </div>
-
-      {/* Connection Line - Exact positioning from Figma */}
-      <div
-        style={{
-          position: "absolute",
-          left: "50%",
-          top: "50%",
-          transform: "translate(-50%, -50%)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        {/* This div now directly contains the SVG for the vertical line */}
-        <div
-          style={{
-            position: "relative",
-            width: "2px", // Width of the line (stroke width)
-            height: "285.088px", // Length of the line
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <svg
-            width="2"
-            height="285.088"
-            viewBox="0 0 2 285.088"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            style={{
-              position: "absolute",
-              inset: 0,
-              display: "block",
-              maxWidth: "none",
-              width: "100%",
-              height: "100%",
-            }}
-          >
-            <defs>
-              <linearGradient id="connectionGradient" x1="1" y1="0" x2="1" y2="285.088" gradientUnits="userSpaceOnUse">
-                <stop stopColor="var(--realtime-primary-color)" stopOpacity="0" />
-                <stop offset="0.5" stopColor="var(--realtime-primary-color)" />
-                <stop offset="1" stopColor="var(--realtime-primary-color)" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-            <path d="M1 0V285.088" stroke="url(#connectionGradient)" strokeWidth="2" />
-          </svg>
-        </div>
-      </div>
-
-      {/* Live Recording Indicator */}
-
-      {/* Sync Indicator at connection point */}
-
-      <style jsx>{`
-        @keyframes pulse {
-          0%, 100% { opacity: 0.4; }
-          50% { opacity: 1; }
-        }
-      `}</style>
     </div>
   )
 }
