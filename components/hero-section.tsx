@@ -3,10 +3,12 @@ import { Button } from "@/components/ui/button"
 import { Header } from "./header"
 import Link from "next/link"
 import { VoiceWorkbenchPanel } from "@/components/indus/VoiceWorkbenchSection"
+import { CallIndusForm } from "@/components/CallIndusForm"
+import { NewsMarquee } from "@/components/NewsMarquee"
 
 export function HeroSection() {
   return (
-    <section className="relative w-full overflow-hidden py-6">
+    <section className="relative w-full min-h-svh overflow-hidden py-6">
       {/* SVG Background */}
       <div className="absolute inset-0 z-0">
         <svg
@@ -435,28 +437,36 @@ export function HeroSection() {
         <Header />
       </div>
 
-      <div className="relative z-10 mx-auto flex w-full max-w-[1240px] flex-col gap-10 px-6 pb-12 pt-20 md:pt-24 lg:pt-28">
-        <div className="flex w-full flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
-          <div className="max-w-xl text-left space-y-5">
-            <h1 className="text-foreground text-3xl md:text-4xl lg:text-6xl font-semibold leading-tight">
-              Build, Deploy, and Scale Voice-First AI
-            </h1>
-            <p className="text-muted-foreground text-base md:text-base lg:text-lg font-medium leading-relaxed max-w-lg">
-              Accelerate your business workflows with production-ready Voice AI agents that listen, reason, and act in
-              real time.
-            </p>
-            <Link href="https://vercel.com/home" target="_blank" rel="noopener noreferrer">
-              <Button className="bg-secondary text-secondary-foreground hover:bg-secondary/90 px-8 py-3 rounded-full font-medium text-base shadow-lg ring-1 ring-white/10">
-                Start free
-              </Button>
-            </Link>
+      <div className="relative z-10 mx-auto flex w-full max-w-[1320px] flex-col gap-12 px-6 pb-16 pt-24 md:pt-28 lg:pt-32">
+        <div className="flex w-full flex-col gap-14 lg:flex-row lg:items-start lg:justify-between">
+          <div className="max-w-2xl text-left">
+            <div className="space-y-4">
+              <h1 className="text-foreground text-4xl md:text-5xl lg:text-7xl font-semibold leading-tight">
+                Build, Deploy, and Scale Voice-First AI
+              </h1>
+              <p className="text-muted-foreground text-lg md:text-xl lg:text-xl font-medium leading-relaxed max-w-xl">
+                Accelerate your business workflows with production-ready Voice AI agents that listen, reason, and act in
+                real time.
+              </p>
+            </div>
+            <div className="mt-8">
+              <Link href="https://vercel.com/home" target="_blank" rel="noopener noreferrer">
+                <Button className="bg-secondary text-secondary-foreground hover:bg-secondary/90 px-10 py-4 rounded-full font-medium text-lg shadow-lg ring-1 ring-white/10">
+                  Start free
+                </Button>
+              </Link>
+            </div>
+            <div className="mt-6 max-w-xl">
+              <CallIndusForm />
+            </div>
           </div>
 
-          <div className="w-full lg:max-w-[560px]">
+          <div className="w-full lg:max-w-[640px] xl:max-w-[720px]">
             <VoiceWorkbenchPanel />
           </div>
         </div>
       </div>
+      <NewsMarquee />
     </section>
   )
 }

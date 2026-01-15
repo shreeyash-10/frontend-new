@@ -11,7 +11,7 @@ export function FooterSection() {
         <div className="flex flex-col justify-start items-start gap-8 p-4 md:p-8">
           <div className="flex gap-3 items-stretch justify-center">
             <Image
-              src="/logos/brand/indus-labs-black.png"
+              src="/logos/brand/indus-labs-white.png"
               alt="IndusLabs"
               width={140}
               height={32}

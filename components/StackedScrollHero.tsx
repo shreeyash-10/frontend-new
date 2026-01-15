@@ -44,15 +44,8 @@ function LogoMark() {
   )
 }
 
-function BaseWireframe() {
-  return (
-    <svg viewBox="0 0 520 320" className="h-full w-full" fill="none" aria-hidden="true">
-      <polygon points={TOP_POINTS} stroke="#0F172A" strokeOpacity="0.25" strokeWidth="1" />
-      <polygon points={LEFT_POINTS} stroke="#0F172A" strokeOpacity="0.22" strokeWidth="1" />
-      <polygon points={RIGHT_POINTS} stroke="#0F172A" strokeOpacity="0.22" strokeWidth="1" />
-    </svg>
-  )
-}
+// BaseWireframe removed as it's replaced by IsometricLayer
+// const TOP_POINTS... (keeping constants if used by IsometricLayer)
 
 function IsometricLayer({ id }: { id: string }) {
   return (
@@ -98,10 +91,12 @@ function Callout({ title, body, top, style }: CalloutProps) {
   return (
     <motion.div style={{ top: `${top}px`, ...style }} className="absolute right-0 w-[260px] text-left">
       <div className="relative pl-6">
-        <span className="absolute -left-6 top-[11px] h-px w-6 bg-neutral-300" />
-        <span className="absolute left-0 top-[7px] h-2 w-2 rounded-full border border-neutral-400 bg-white" />
-        <p className="text-[10px] font-semibold tracking-[0.22em] text-neutral-500">{title}</p>
-        {body ? <p className="mt-2 text-xs leading-relaxed text-neutral-500">{body}</p> : null}
+        {/* Connecting Line */}
+        <span className="absolute -left-12 top-[12px] h-px w-16 bg-neutral-900 opacity-30" />
+        <span className="absolute -left-12 top-[10px] h-1.5 w-1.5 rounded-full bg-neutral-900" />
+
+        <p className="text-[11px] font-bold tracking-[0.15em] text-neutral-900">{title}</p>
+        {body ? <p className="mt-2 text-sm leading-relaxed text-neutral-600 font-medium">{body}</p> : null}
       </div>
     </motion.div>
   )
@@ -112,8 +107,7 @@ function LeftCopy() {
     <div className="space-y-6">
       <div className="space-y-4">
         <h2 className="text-4xl font-serif leading-tight text-neutral-900 md:text-5xl">
-          Full Stack AI for
-          <br />
+          Full Stack AI for <br />
           your Contact Center
         </h2>
         <p className="max-w-md text-base leading-relaxed text-neutral-500 md:text-lg">
@@ -168,12 +162,16 @@ export function StackedScrollHero() {
 
   // Callouts
   const baseOpacity = useTransform(smoothProgress, [0, 0.18], [1, 0])
-  const callout1Opacity = useTransform(smoothProgress, [0.22, 0.34], [0, 1])
+
+  // Callout 1: Fades in, then dims when next one appears
+  const callout1Opacity = useTransform(smoothProgress, [0.22, 0.34, 0.47, 0.60], [0, 1, 1, 0.3])
   const callout1Y = useTransform(smoothProgress, [0.22, 0.34], [8, 0])
 
-  const callout2Opacity = useTransform(smoothProgress, [0.47, 0.60], [0, 1])
+  // Callout 2: Fades in, then dims
+  const callout2Opacity = useTransform(smoothProgress, [0.47, 0.60, 0.72, 0.86], [0, 1, 1, 0.3])
   const callout2Y = useTransform(smoothProgress, [0.47, 0.60], [8, 0])
 
+  // Callout 3: Fades in and stays active (most recent)
   const callout3Opacity = useTransform(smoothProgress, [0.72, 0.86], [0, 1])
   const callout3Y = useTransform(smoothProgress, [0.72, 0.86], [8, 0])
 
@@ -210,30 +208,30 @@ export function StackedScrollHero() {
             </div>
 
             <div className="col-span-8 flex justify-center">
-              <div className="relative h-[400px] w-full">
+              <div className="relative h-[400px] w-full max-w-[700px]">
                 {/* Stack area */}
-                <div className="absolute left-0 bottom-0 h-[360px] w-[520px]">
+                <div className="absolute left-0 bottom-0 h-[360px] w-[520px] -ml-8">
                   <div className="relative h-full w-full">
-                    <div className="absolute bottom-0 left-1/2 w-full -translate-x-1/2 z-0">
-                      <BaseWireframe />
+                    <div className="absolute bottom-[0px] left-1/2 w-full -translate-x-1/2 z-0">
+                      <IsometricLayer id="layer-0" />
                     </div>
 
                     <motion.div
-                      className="absolute bottom-[24px] left-1/2 w-full -translate-x-1/2 z-10"
+                      className="absolute bottom-[30px] left-1/2 w-full -translate-x-1/2 z-10"
                       style={{ opacity: layer1Opacity, y: layer1Y, scale: layer1Scale }}
                     >
                       <IsometricLayer id="layer-1" />
                     </motion.div>
 
                     <motion.div
-                      className="absolute bottom-[56px] left-1/2 w-full -translate-x-1/2 z-20"
+                      className="absolute bottom-[60px] left-1/2 w-full -translate-x-1/2 z-20"
                       style={{ opacity: layer2Opacity, y: layer2Y, scale: layer2Scale }}
                     >
                       <IsometricLayer id="layer-2" />
                     </motion.div>
 
                     <motion.div
-                      className="absolute bottom-[88px] left-1/2 w-full -translate-x-1/2 z-30"
+                      className="absolute bottom-[90px] left-1/2 w-full -translate-x-1/2 z-30"
                       style={{ opacity: layer3Opacity, y: layer3Y, scale: layer3Scale }}
                     >
                       <div className="relative">
@@ -250,27 +248,27 @@ export function StackedScrollHero() {
                 </div>
 
                 {/* Callouts */}
-                <div className="absolute right-0 top-0 h-full w-[260px]">
-                  <Callout title="TELEPHONY ANALYTICS INTEGRATIONS" top={255} style={{ opacity: baseOpacity }} />
+                <div className="absolute right-0 top-0 z-50 h-full w-[260px]">
+                  <Callout title="TELEPHONY ANALYTICS INTEGRATIONS" top={270} style={{ opacity: baseOpacity }} />
 
                   <Callout
                     title="VOICE AGENTIC PLATFORMS"
                     body="Deploy autonomous voice workflows with orchestration and safe handoffs."
-                    top={180}
+                    top={200}
                     style={{ opacity: callout1Opacity, y: callout1Y }}
                   />
 
                   <Callout
                     title="ELECTRON INTELLIGENCE"
                     body="Enrich signals and compliance insights across every customer interaction."
-                    top={105}
+                    top={135}
                     style={{ opacity: callout2Opacity, y: callout2Y }}
                   />
 
                   <Callout
                     title="LIGHTNING VOICE AI"
                     body="Low-latency synthesis and real-time personalization for every call."
-                    top={30}
+                    top={70}
                     style={{ opacity: callout3Opacity, y: callout3Y }}
                   />
                 </div>
@@ -285,19 +283,19 @@ export function StackedScrollHero() {
             <LeftCopy />
 
             <div className="relative h-[320px] w-full">
-              <div className="absolute bottom-0 left-1/2 w-full -translate-x-1/2">
-                <BaseWireframe />
+              <div className="absolute bottom-[0px] left-1/2 w-full -translate-x-1/2">
+                <IsometricLayer id="mobile-layer-0" />
               </div>
 
-              <div className="absolute bottom-[20px] left-1/2 w-full -translate-x-1/2">
+              <div className="absolute bottom-[30px] left-1/2 w-full -translate-x-1/2">
                 <IsometricLayer id="mobile-layer-1" />
               </div>
 
-              <div className="absolute bottom-[44px] left-1/2 w-full -translate-x-1/2">
+              <div className="absolute bottom-[60px] left-1/2 w-full -translate-x-1/2">
                 <IsometricLayer id="mobile-layer-2" />
               </div>
 
-              <div className="absolute bottom-[68px] left-1/2 w-full -translate-x-1/2">
+              <div className="absolute bottom-[90px] left-1/2 w-full -translate-x-1/2">
                 <div className="relative">
                   <IsometricLayer id="mobile-layer-3" />
                   <div className="pointer-events-none absolute left-1/2 top-[45%] -translate-x-1/2 -translate-y-1/2 -skew-x-12 opacity-70">

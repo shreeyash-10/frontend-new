@@ -104,7 +104,7 @@ const STT_LANGUAGES = [
   { label: "English", code: "en" },
 ] as const;
 
-const BUILDER_CHANNELS = ["Phone (SIP)", "WhatsApp", "Web widget"] as const;
+const BUILDER_LLM_OPTIONS = ["120-B", "4.5OPUS", "LLAMA Maverick", "Indus V1"] as const;
 
 const BUILDER_TEMPLATES: BuilderTemplate[] = [
   {
@@ -160,7 +160,7 @@ const TabPill = ({ label, active, onClick }: { label: string; active: boolean; o
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
+      className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
         active ? "bg-foreground text-background" : "text-foreground/60 hover:text-foreground"
       }`}
     >
@@ -170,7 +170,7 @@ const TabPill = ({ label, active, onClick }: { label: string; active: boolean; o
 };
 
 const VoiceWorkbenchPanel = () => {
-  const [activeTab, setActiveTab] = useState<HeroTab>("tts");
+  const [activeTab, setActiveTab] = useState<HeroTab>("bot");
   const [catalog, setCatalog] = useState<LanguageDefinition[]>([]);
   const [catalogLoading, setCatalogLoading] = useState(true);
   const [catalogError, setCatalogError] = useState<string | null>(null);
@@ -204,16 +204,16 @@ const VoiceWorkbenchPanel = () => {
   }, []);
 
   return (
-    <div className="relative overflow-hidden rounded-[32px] border border-border bg-card px-4 py-5 text-left shadow-sm sm:px-6 sm:py-6 lg:px-8 lg:py-7">
+    <div className="relative overflow-hidden rounded-[36px] border border-border bg-card px-5 py-6 text-left shadow-sm sm:px-7 sm:py-7 lg:px-10 lg:py-9">
       <div className="relative">
-        <div className="mb-5 flex flex-wrap items-center gap-3">
-          <div className="inline-flex rounded-full bg-muted p-1 text-xs sm:text-sm">
+        <div className="mb-6 flex flex-wrap items-center gap-4">
+          <div className="inline-flex rounded-full bg-muted p-1.5 text-sm sm:text-base">
             <TabPill label="Test TTS" active={activeTab === "tts"} onClick={() => setActiveTab("tts")} />
             <TabPill label="Test STT" active={activeTab === "stt"} onClick={() => setActiveTab("stt")} />
-            <TabPill label="Build a Bot" active={activeTab === "bot"} onClick={() => setActiveTab("bot")} />
+            <TabPill label="Build your own bot" active={activeTab === "bot"} onClick={() => setActiveTab("bot")} />
           </div>
 
-          <div className="ml-auto flex items-center gap-2 text-[11px] font-medium text-emerald-500">
+          <div className="ml-auto flex items-center gap-2.5 text-xs font-medium text-emerald-500">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
             <span>Realtime - ~90ms latency</span>
           </div>
@@ -537,9 +537,9 @@ function HeroTtsTab({ catalog, isLoading, errorMessage }: HeroTtsTabProps) {
           value={script}
           maxLength={CHARACTER_LIMIT}
           onChange={(event) => handleScriptChange(event.target.value)}
-          className="h-28 w-full resize-none bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
+          className="h-28 w-full resize-none bg-transparent text-base text-foreground outline-none placeholder:text-muted-foreground"
         />
-        <div className="mt-2 flex items-center justify-between text-[11px] text-muted-foreground">
+        <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
           <span>
             {script.length} / {CHARACTER_LIMIT} characters
           </span>
@@ -557,7 +557,7 @@ function HeroTtsTab({ catalog, isLoading, errorMessage }: HeroTtsTabProps) {
         <label className="flex flex-col gap-1 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
           Language
           <select
-            className="w-full rounded-2xl border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-foreground/40"
+            className="w-full rounded-2xl border border-border bg-background px-3 py-2 text-base text-foreground outline-none focus:border-foreground/40"
             value={selectedLanguageCode}
             onChange={(event) => setSelectedLanguageCode(event.target.value)}
             disabled={!languageOptions.length}
@@ -573,7 +573,7 @@ function HeroTtsTab({ catalog, isLoading, errorMessage }: HeroTtsTabProps) {
         <label className="flex flex-col gap-1 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
           Voice
           <select
-            className="w-full rounded-2xl border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-foreground/40"
+            className="w-full rounded-2xl border border-border bg-background px-3 py-2 text-base text-foreground outline-none focus:border-foreground/40"
             value={selectedVoiceId}
             onChange={(event) => setSelectedVoiceId(event.target.value)}
           >
@@ -592,7 +592,7 @@ function HeroTtsTab({ catalog, isLoading, errorMessage }: HeroTtsTabProps) {
           type="button"
           onClick={handlePlay}
           disabled={isSynthesizing || !selectedVoiceId || !script.trim()}
-          className="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2 text-sm font-semibold text-background transition hover:bg-foreground/90 disabled:cursor-not-allowed disabled:opacity-60"
+          className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-2.5 text-base font-semibold text-background transition hover:bg-foreground/90 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {isSynthesizing ? (
             <Loader2 className="h-4 w-4 animate-spin" />
@@ -603,14 +603,14 @@ function HeroTtsTab({ catalog, isLoading, errorMessage }: HeroTtsTabProps) {
           )}
           {isSynthesizing ? "Generating" : "Play sample"}
         </button>
-        <button type="button" className="text-xs text-muted-foreground hover:text-foreground" onClick={handleRandomScript}>
+        <button type="button" className="text-sm text-muted-foreground hover:text-foreground" onClick={handleRandomScript}>
           Random script
         </button>
       </div>
 
       {(ttsError || errorMessage) && <p className="text-xs text-rose-500">{ttsError || errorMessage}</p>}
 
-      <p className="text-[11px] text-muted-foreground">
+      <p className="text-xs text-muted-foreground">
         Powered by IndusTTS - Ideal for calls, agents, and product voices.
       </p>
 
@@ -721,7 +721,7 @@ function HeroSttTab() {
                 startRecording();
               }
             }}
-            className={`inline-flex flex-col items-center justify-center gap-2 rounded-full border border-border bg-background px-6 py-6 text-foreground shadow-sm transition ${
+            className={`inline-flex flex-col items-center justify-center gap-2 rounded-full border border-border bg-background px-7 py-7 text-foreground shadow-sm transition ${
               isRecording ? "ring-4 ring-emerald-300/40 bg-emerald-500/10" : "hover:shadow-md"
             }`}
           >
@@ -732,23 +732,27 @@ function HeroSttTab() {
             >
               <Mic className="h-5 w-5" />
             </span>
-            <span className="text-xs font-semibold uppercase tracking-wide">
+            <span className="text-sm font-semibold uppercase tracking-wide">
               {isRecording ? "Listening" : "Start recording"}
             </span>
           </button>
         </div>
 
         <div className="flex-1 rounded-2xl border border-border bg-background p-3 sm:p-4">
-          <p className="mb-1 text-[11px] text-muted-foreground">Live transcript</p>
-          <div className="h-24 overflow-y-auto text-sm text-foreground">
-            {transcript ? <span>{transcript}</span> : <span className="text-muted-foreground">Your words will appear here instantly...</span>}
+          <p className="mb-1 text-xs text-muted-foreground">Live transcript</p>
+          <div className="h-24 overflow-y-auto text-base text-foreground">
+            {transcript ? (
+              <span>{transcript}</span>
+            ) : (
+              <span className="text-muted-foreground">Your words will appear here instantly...</span>
+            )}
           </div>
         </div>
       </div>
 
-      <div className="flex items-center gap-3 text-xs">
+      <div className="flex items-center gap-3 text-sm">
         <select
-          className="rounded-full border border-border bg-background px-3 py-1.5 text-xs text-foreground outline-none focus:border-foreground/40"
+          className="rounded-full border border-border bg-background px-3 py-1.5 text-sm text-foreground outline-none focus:border-foreground/40"
           value={selectedLanguage}
           onChange={(event) =>
             setSelectedLanguage(event.target.value as (typeof STT_LANGUAGES)[number]["code"])
@@ -760,14 +764,14 @@ function HeroSttTab() {
             </option>
           ))}
         </select>
-        <p className="ml-auto text-[11px] text-muted-foreground">
+        <p className="ml-auto text-xs text-muted-foreground">
           {isProcessing ? "Transcribing in realtime..." : status}
         </p>
       </div>
 
       {error && <p className="text-xs text-rose-500">{error}</p>}
 
-      <p className="text-[11px] text-muted-foreground">
+      <p className="text-xs text-muted-foreground">
         Streaming ASR for realtime captions, QA, and analytics.
       </p>
     </div>
@@ -776,8 +780,9 @@ function HeroSttTab() {
 
 function HeroBotTab({ catalog, isLoadingCatalog, catalogError }: HeroBotTabProps) {
   const [activeTemplate, setActiveTemplate] = useState(BUILDER_TEMPLATES[0]);
-  const [channel, setChannel] = useState<typeof BUILDER_CHANNELS[number]>(BUILDER_CHANNELS[0]);
   const [language, setLanguage] = useState<string>(BUILDER_TEMPLATES[0].language);
+  const [selectedVoiceId, setSelectedVoiceId] = useState<string>("");
+  const [selectedLlm, setSelectedLlm] = useState<(typeof BUILDER_LLM_OPTIONS)[number]>(BUILDER_LLM_OPTIONS[0]);
   const [isConnecting, setIsConnecting] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
   const [statusMessage, setStatusMessage] = useState("Preview ready. Launch a call in seconds.");
@@ -798,6 +803,24 @@ function HeroBotTab({ catalog, isLoadingCatalog, catalogError }: HeroBotTabProps
       value: name,
     }));
   }, [catalog]);
+
+  const builderVoiceOptions = useMemo(() => {
+    if (!catalog.length) return [];
+    const resolvedCode = normalizeLanguageCode(language.toLowerCase());
+    const languageMatch = catalog.find(
+      (lang) =>
+        lang.code === resolvedCode ||
+        lang.name.toLowerCase() === language.toLowerCase() ||
+        lang.nativeName.toLowerCase() === language.toLowerCase()
+    );
+    const voices = languageMatch?.voices?.length ? languageMatch.voices : catalog[0]?.voices ?? [];
+    return voices.map((voice) => ({
+      label: voice.name,
+      value: getVoiceId(voice),
+    }));
+  }, [catalog, language]);
+
+  const selectedVoiceLabel = builderVoiceOptions.find((option) => option.value === selectedVoiceId)?.label;
 
   useEffect(() => {
     setPromptInput(activeTemplate.prompt);
@@ -821,21 +844,18 @@ function HeroBotTab({ catalog, isLoadingCatalog, catalogError }: HeroBotTabProps
   }, [builderLanguageOptions, language]);
 
   useEffect(() => {
+    if (!builderVoiceOptions.length) return;
+    const matches = builderVoiceOptions.some((option) => option.value === selectedVoiceId);
+    if (!matches) {
+      setSelectedVoiceId(builderVoiceOptions[0].value);
+    }
+  }, [builderVoiceOptions, selectedVoiceId]);
+
+  useEffect(() => {
     return () => {
       callService.endCall().catch(() => undefined);
     };
   }, []);
-
-  const findVoiceForLanguage = (target: string) => {
-    const resolvedCode = normalizeLanguageCode(target.toLowerCase());
-    const match = catalog.find(
-      (lang) =>
-        lang.code === resolvedCode ||
-        lang.name.toLowerCase() === target.toLowerCase() ||
-        lang.nativeName.toLowerCase() === target.toLowerCase()
-    );
-    return match?.voices[0];
-  };
 
   const handleLaunch = async () => {
     if (!catalog.length) {
@@ -843,9 +863,8 @@ function HeroBotTab({ catalog, isLoadingCatalog, catalogError }: HeroBotTabProps
       return;
     }
 
-    const voice = findVoiceForLanguage(language) || findVoiceForLanguage("English");
-    if (!voice) {
-      setError("No compatible voice available for this language yet.");
+    if (!selectedVoiceId) {
+      setError("Please choose a voice to preview.");
       return;
     }
 
@@ -856,13 +875,13 @@ function HeroBotTab({ catalog, isLoadingCatalog, catalogError }: HeroBotTabProps
 
     setIsConnecting(true);
     setError(null);
-    setStatusMessage(`Connecting over ${channel}...`);
+    setStatusMessage(selectedVoiceLabel ? `Connecting with ${selectedVoiceLabel}...` : "Connecting preview...");
 
     try {
       const response = await demoService.fetchDemoToken(
         BUILDER_AGENT_ID,
         "",
-        getVoiceId(voice),
+        selectedVoiceId,
         demoService.getLanguageCode(language),
         promptInput,
         instructionInput
@@ -884,7 +903,7 @@ function HeroBotTab({ catalog, isLoadingCatalog, catalogError }: HeroBotTabProps
 
       await callService.connectToCall(response.token, livekitUrl);
       setIsConnected(true);
-      setStatusMessage(`Connected on ${channel}. You can hang up anytime.`);
+      setStatusMessage("Connected. You can hang up anytime.");
     } catch (err) {
       console.error("Failed to open builder preview", err);
       setError(err instanceof Error ? err.message : "Unable to open the builder right now.");
@@ -908,8 +927,8 @@ function HeroBotTab({ catalog, isLoadingCatalog, catalogError }: HeroBotTabProps
   return (
     <div className="space-y-4">
       <div>
-        <p className="mb-2 text-[11px] text-muted-foreground">Choose a template</p>
-        <div className="flex flex-wrap gap-2 text-xs">
+        <p className="mb-2 text-xs text-muted-foreground">Choose a template</p>
+        <div className="flex flex-wrap gap-2 text-sm">
           {BUILDER_TEMPLATES.map((template) => (
             <button
               key={template.id}
@@ -927,25 +946,27 @@ function HeroBotTab({ catalog, isLoadingCatalog, catalogError }: HeroBotTabProps
         </div>
       </div>
 
-      <div className="grid gap-3 text-xs sm:grid-cols-2">
+      <div className="grid gap-3 text-sm sm:grid-cols-3">
         <div className="space-y-1">
-          <p className="text-[11px] text-muted-foreground">Channel</p>
+          <p className="text-xs text-muted-foreground">Voice</p>
           <select
-            className="w-full rounded-xl border border-border bg-background px-3 py-2 text-xs text-foreground outline-none focus:border-foreground/40"
-            value={channel}
-            onChange={(event) => setChannel(event.target.value as typeof BUILDER_CHANNELS[number])}
+            className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-foreground/40"
+            value={selectedVoiceId}
+            onChange={(event) => setSelectedVoiceId(event.target.value)}
+            disabled={!builderVoiceOptions.length}
           >
-            {BUILDER_CHANNELS.map((option) => (
-              <option key={option} value={option}>
-                {option}
+            {!builderVoiceOptions.length && <option>Loading voices...</option>}
+            {builderVoiceOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
               </option>
             ))}
           </select>
         </div>
         <div className="space-y-1">
-          <p className="text-[11px] text-muted-foreground">Language</p>
+          <p className="text-xs text-muted-foreground">Language</p>
           <select
-            className="w-full rounded-xl border border-border bg-background px-3 py-2 text-xs text-foreground outline-none focus:border-foreground/40"
+            className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-foreground/40"
             value={language}
             onChange={(event) => setLanguage(event.target.value)}
           >
@@ -956,21 +977,37 @@ function HeroBotTab({ catalog, isLoadingCatalog, catalogError }: HeroBotTabProps
             ))}
           </select>
         </div>
+        <div className="space-y-1">
+          <p className="text-xs text-muted-foreground">LLM</p>
+          <select
+            className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-foreground/40"
+            value={selectedLlm}
+            onChange={(event) =>
+              setSelectedLlm(event.target.value as (typeof BUILDER_LLM_OPTIONS)[number])
+            }
+          >
+            {BUILDER_LLM_OPTIONS.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
-      <div className="flex flex-col gap-3 text-xs">
+      <div className="flex flex-col gap-3 text-sm">
         <div className="space-y-1">
-          <p className="text-[11px] text-muted-foreground">Starting instruction</p>
+          <p className="text-xs text-muted-foreground">Starting instruction</p>
           <textarea
-            className="min-h-[56px] w-full rounded-2xl border border-border bg-background p-3 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-foreground/40"
+            className="min-h-[56px] w-full rounded-2xl border border-border bg-background p-3 text-base text-foreground outline-none placeholder:text-muted-foreground focus:border-foreground/40"
             value={instructionInput}
             onChange={(event) => setInstructionInput(event.target.value)}
           />
         </div>
         <div className="space-y-1">
-          <p className="text-[11px] text-muted-foreground">System prompt</p>
+          <p className="text-xs text-muted-foreground">System prompt</p>
           <textarea
-            className="min-h-[140px] w-full rounded-2xl border border-border bg-background p-3 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-foreground/40"
+            className="min-h-[140px] w-full rounded-2xl border border-border bg-background p-3 text-base text-foreground outline-none placeholder:text-muted-foreground focus:border-foreground/40"
             value={promptInput}
             onChange={(event) => setPromptInput(event.target.value)}
           />
@@ -982,7 +1019,7 @@ function HeroBotTab({ catalog, isLoadingCatalog, catalogError }: HeroBotTabProps
           type="button"
           onClick={isConnected ? handleEnd : handleLaunch}
           disabled={isConnecting || isLoadingCatalog}
-          className="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2 text-sm font-semibold text-background transition hover:bg-foreground/90 disabled:cursor-not-allowed disabled:opacity-60"
+          className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-2.5 text-base font-semibold text-background transition hover:bg-foreground/90 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {isConnecting ? (
             <Loader2 className="h-4 w-4 animate-spin" />
@@ -993,12 +1030,12 @@ function HeroBotTab({ catalog, isLoadingCatalog, catalogError }: HeroBotTabProps
           )}
           {isConnected ? "End preview" : "Open in Builder"}
         </button>
-        <p className="text-[11px] text-muted-foreground">{catalogError ? catalogError : statusMessage}</p>
+        <p className="text-xs text-muted-foreground">{catalogError ? catalogError : statusMessage}</p>
       </div>
 
       {error && <p className="text-xs text-rose-500">{error}</p>}
 
-      <p className="text-[11px] text-muted-foreground">
+      <p className="text-xs text-muted-foreground">
         No code required. Customize persona, flows, and CRM hooks in the IndusLabs Studio.
       </p>
     </div>

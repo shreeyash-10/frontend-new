@@ -22,8 +22,9 @@ export function LargeTestimonial() {
                   style={{ border: "1px solid rgba(0, 0, 0, 0.08)" }}
                 />
                 <div className="flex flex-col justify-start items-start">
-                  <div className="text-foreground text-base font-medium leading-6">Enterprise Partner</div>
-                  <div className="text-muted-foreground text-sm font-normal leading-6">{""}</div>
+                  <div className="text-foreground text-base font-medium leading-6">
+                    Sankalp Bansal - Founder (Massist)
+                  </div>
                 </div>
               </div>
             </div>
