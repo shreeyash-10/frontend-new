@@ -59,3 +59,70 @@
     transform: translateX(-50%);
   }
 }
+
+.orb {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+}
+
+.animate-orb {
+  animation: wave 0.4s infinite ease-in-out;
+}
+
+.animate-orb-slow {
+  animation: wave 2s infinite ease-in-out;
+}
+
+.orb-active {
+  background: radial-gradient(
+    circle at center,
+    hsl(var(--primary)) 0%,
+    hsl(var(--primary-light)) 55%,
+    hsl(var(--foreground)) 100%
+  );
+}
+
+.orb-inactive {
+  background: radial-gradient(
+    circle at center,
+    hsl(var(--primary) / 0.45),
+    hsl(var(--primary-light) / 0.25),
+    hsl(var(--foreground) / 0.15)
+  );
+}
+
+.orb::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  border-radius: 50%;
+  animation: wave-motion 6s infinite linear;
+}
+
+@keyframes wave {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes wave-motion {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(10px, 10px) rotate(180deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(360deg);
+  }
+}

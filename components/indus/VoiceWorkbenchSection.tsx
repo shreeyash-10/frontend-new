@@ -11,7 +11,7 @@ import { callService } from "@/services/callService";
 import { fetchWithFallback } from "@/utils/api";
 
 
-type HeroTab = "tts" | "stt" | "bot";
+type HeroTab = "tts" | "stt" | "bot" | "hotline";
 
 type BuilderTemplate = {
   id: string;
@@ -211,6 +211,7 @@ const VoiceWorkbenchPanel = () => {
             <TabPill label="Test TTS" active={activeTab === "tts"} onClick={() => setActiveTab("tts")} />
             <TabPill label="Test STT" active={activeTab === "stt"} onClick={() => setActiveTab("stt")} />
             <TabPill label="Build your own bot" active={activeTab === "bot"} onClick={() => setActiveTab("bot")} />
+            <TabPill label="Indus Hotline" active={activeTab === "hotline"} onClick={() => setActiveTab("hotline")} />
           </div>
 
           <div className="ml-auto flex items-center gap-2.5 text-xs font-medium text-emerald-500">
@@ -224,6 +225,7 @@ const VoiceWorkbenchPanel = () => {
         {activeTab === "bot" && (
           <HeroBotTab catalog={catalog} isLoadingCatalog={catalogLoading} catalogError={catalogError} />
         )}
+        {activeTab === "hotline" && <HeroHotlineTab />}
       </div>
     </div>
   );
@@ -1038,6 +1040,35 @@ function HeroBotTab({ catalog, isLoadingCatalog, catalogError }: HeroBotTabProps
       <p className="text-xs text-muted-foreground">
         No code required. Customize persona, flows, and CRM hooks in the IndusLabs Studio.
       </p>
+    </div>
+  );
+}
+
+function HeroHotlineTab() {
+  const [isActive, setIsActive] = useState(false);
+
+  return (
+    <div className="flex flex-col items-center gap-4 text-center">
+      <div
+        className={`orb ${
+          isActive ? "orb-active animate-orb" : "orb-inactive animate-orb-slow"
+        }`}
+      />
+      <div className="space-y-1">
+        <p className="text-sm font-semibold text-foreground">
+          {isActive ? "Indus Hotline is live" : "Indus Hotline ready"}
+        </p>
+        <p className="text-xs text-muted-foreground">
+          {isActive ? "Listening for live requests." : "Start the hotline to activate the live orb."}
+        </p>
+      </div>
+      <button
+        type="button"
+        onClick={() => setIsActive((prev) => !prev)}
+        className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-5 py-2 text-sm font-semibold text-foreground transition hover:bg-muted"
+      >
+        {isActive ? "End hotline" : "Start hotline"}
+      </button>
     </div>
   );
 }
